@@ -50,11 +50,6 @@
             <scope>runtime</scope>
         </dependency>
         <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <optional>true</optional>
@@ -85,16 +80,40 @@
             <groupId>org.camunda.spin</groupId>
             <artifactId>camunda-spin-dataformat-all</artifactId>
         </dependency>
+        <!-- Camunda -->
 
+        <!-- DB Camunda -->
         <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-jdbc</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <!-- DB Camunda -->
+
+        <!-- Camunda Documentação -->
+        <dependency>
+            <groupId>org.camunda.bpm.run</groupId>
+            <artifactId>camunda-bpm-run-modules-swaggerui</artifactId>
+            <version>7.18.0</version>
+        </dependency>
+        <!-- Camunda Documentação -->
+
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jdbc</artifactId>
+        </dependency>
+
     </dependencies>
     <dependencyManagement>
         <dependencies>
@@ -139,5 +158,24 @@
             </plugin>
         </plugins>
     </build>
+
+    <repositories>
+        <!-- Spring Maven Repository -->
+        <repository>
+            <id>springsource-repo</id>
+            <name>SpringSource Repository</name>
+            <url>https://repo.springsource.org/release</url>
+        </repository>
+        <!-- Spring Maven Repository -->
+
+        <!-- Camunda Maven Repository -->
+        <repository>
+            <id>camunda-bpm-nexus</id>
+            <name>camunda-bpm-nexus</name>
+            <url>https://artifacts.camunda.com/artifactory/public/</url>
+        </repository>
+        <!-- Camunda Maven Repository -->
+
+    </repositories>
 
 </project>

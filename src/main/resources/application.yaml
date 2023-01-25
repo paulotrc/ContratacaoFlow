@@ -1,4 +1,13 @@
-spring.datasource.url: jdbc:h2:file:./camunda-h2-database
+server:
+  port: 8081
+  servlet:
+    context-path: /orquestrador
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/camunda
+    username: camunda_adm
+    password: camunda_adm
 
 camunda.bpm.admin-user:
   id: admin
