@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="RiscoCliente" name="DRD" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="5.7.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.18.0">
+  <decision id="Decision_0g8rvac" name="Risco Cliente">
+    <decisionTable id="DecisionTable_1v1l0ur">
+      <input id="Input_1" label="spc">
+        <inputExpression id="InputExpression_1" typeRef="boolean">
+          <text>spc</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_0tj1m29" label="serasa">
+        <inputExpression id="LiteralExpression_04ircc6" typeRef="boolean">
+          <text>serasa</text>
+        </inputExpression>
+      </input>
+      <output id="Output_1" label="nivel" name="nivel" typeRef="string" />
+      <rule id="DecisionRule_1mojztq">
+        <inputEntry id="UnaryTests_1bnezqy">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0oqnfbh">
+          <text>true</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1ctbapp">
+          <text>"alto"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0506js7">
+        <inputEntry id="UnaryTests_1hdwoxt">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1xji81f">
+          <text>false</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0whu1gf">
+          <text>"baixo"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0ie10tl">
+        <inputEntry id="UnaryTests_15hggyc">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_17h5gpo">
+          <text>true</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0thaxsn">
+          <text>"medio"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_10pibyy">
+        <inputEntry id="UnaryTests_1dkw52f">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1o89lqy">
+          <text>false</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0dj7n0l">
+          <text>"medio"</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram>
+      <dmndi:DMNShape dmnElementRef="Decision_0g8rvac">
+        <dc:Bounds height="80" width="180" x="160" y="100" />
+      </dmndi:DMNShape>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>
