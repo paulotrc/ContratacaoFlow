@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_091b1xa" name="DRD" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="5.7.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.18.0">
+  <decision id="Decision_1bhnqy3" name="Regra de validação de bem quitado do Cliente">
+    <decisionTable id="DecisionTable_0l0wf76">
+      <input id="Input_1" label="Data final do contrato">
+        <inputExpression id="InputExpression_1" typeRef="date">
+          <text>dataFimContrato</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_02m4hw3" label="Tem Parcelas em Aberto">
+        <inputExpression id="LiteralExpression_09xw39p" typeRef="boolean">
+          <text>parcelasEmAberto</text>
+        </inputExpression>
+      </input>
+      <output id="Output_1" label="O Bem está Quitado" name="bemQuitado" typeRef="boolean" />
+      <rule id="DecisionRule_0g7f25w">
+        <inputEntry id="UnaryTests_1cc206l">
+          <text>&gt;= dataHoje</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_145fhqk">
+          <text>true</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0qn01cp">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1hl8j4b">
+        <inputEntry id="UnaryTests_15djzlo">
+          <text>&gt;= dataHoje</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0hbov0d">
+          <text>false</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_06642g4">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1tkil3z">
+        <inputEntry id="UnaryTests_1e1ocy7">
+          <text>&lt; dataHoje</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1e2chgp">
+          <text>true</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_13z04uu">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0ftlyai">
+        <inputEntry id="UnaryTests_0mkduu6">
+          <text>&lt; dataHoje</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_10xi9kj">
+          <text>false</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0caat2c">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram>
+      <dmndi:DMNShape dmnElementRef="Decision_1bhnqy3">
+        <dc:Bounds height="80" width="180" x="160" y="100" />
+      </dmndi:DMNShape>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>

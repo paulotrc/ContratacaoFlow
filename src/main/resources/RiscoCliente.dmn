@@ -1,38 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="RiscoCliente" name="DRD" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="5.7.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.18.0">
-  <decision id="Decision_0g8rvac" name="Risco Cliente">
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:modeler="http://camunda.org/schema/modeler/1.0" xmlns:camunda="http://camunda.org/schema/1.0/dmn" xmlns:biodi="http://bpmn.io/schema/dmn/biodi/2.0" xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" id="RiscoCliente" name="DRD" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="5.7.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.18.0">
+  <decision id="RiscoRestricoes" name="RiscoRestricoes" camunda:versionTag="v1.0">
+    <informationRequirement id="InformationRequirement_14j4c5p">
+      <requiredInput href="#InputData_0eqg8rk" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_1yhdlw3">
+      <requiredInput href="#InputData_1pn6phh" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_0vw55hx">
+      <requiredInput href="#InputData_1eimli0" />
+    </informationRequirement>
     <decisionTable id="DecisionTable_1v1l0ur">
-      <input id="Input_1" label="spc">
+      <input id="Input_1" label="tem restrição Spc (Peso 1)" biodi:width="214">
         <inputExpression id="InputExpression_1" typeRef="boolean">
           <text>spc</text>
         </inputExpression>
       </input>
-      <input id="InputClause_0tj1m29" label="serasa">
+      <input id="InputClause_0tj1m29" label="tem restrição Serasa (Peso 1)" biodi:width="245">
         <inputExpression id="LiteralExpression_04ircc6" typeRef="boolean">
           <text>serasa</text>
         </inputExpression>
       </input>
-      <output id="Output_1" label="nivel" name="nivel" typeRef="string" />
+      <input id="InputClause_1803n8s" label="tem restrição/contestação no Bacen (Peso 2)" biodi:width="349">
+        <inputExpression id="LiteralExpression_0yi3qxr" typeRef="boolean">
+          <text>bacen</text>
+        </inputExpression>
+      </input>
+      <output id="Output_1" label="Peso (0,1,2)" name="peso" typeRef="integer" />
       <rule id="DecisionRule_1mojztq">
+        <description>Define o peso baseado nas restrições do cliente</description>
         <inputEntry id="UnaryTests_1bnezqy">
           <text>true</text>
         </inputEntry>
         <inputEntry id="UnaryTests_0oqnfbh">
           <text>true</text>
         </inputEntry>
+        <inputEntry id="UnaryTests_112m48h">
+          <text>true</text>
+        </inputEntry>
         <outputEntry id="LiteralExpression_1ctbapp">
-          <text>"alto"</text>
+          <text>2</text>
         </outputEntry>
       </rule>
       <rule id="DecisionRule_0506js7">
+        <description>Peso 0 para clientes sem restrições</description>
         <inputEntry id="UnaryTests_1hdwoxt">
           <text>false</text>
         </inputEntry>
         <inputEntry id="UnaryTests_1xji81f">
           <text>false</text>
         </inputEntry>
+        <inputEntry id="UnaryTests_02ioo50">
+          <text>false</text>
+        </inputEntry>
         <outputEntry id="LiteralExpression_0whu1gf">
-          <text>"baixo"</text>
+          <text>0</text>
         </outputEntry>
       </rule>
       <rule id="DecisionRule_0ie10tl">
@@ -42,8 +64,11 @@
         <inputEntry id="UnaryTests_17h5gpo">
           <text>true</text>
         </inputEntry>
+        <inputEntry id="UnaryTests_19vfu9j">
+          <text>true</text>
+        </inputEntry>
         <outputEntry id="LiteralExpression_0thaxsn">
-          <text>"medio"</text>
+          <text>2</text>
         </outputEntry>
       </rule>
       <rule id="DecisionRule_10pibyy">
@@ -53,17 +78,375 @@
         <inputEntry id="UnaryTests_1o89lqy">
           <text>false</text>
         </inputEntry>
+        <inputEntry id="UnaryTests_0o7vuw5">
+          <text>false</text>
+        </inputEntry>
         <outputEntry id="LiteralExpression_0dj7n0l">
+          <text>1</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_17lpdz4">
+        <inputEntry id="UnaryTests_1al2gw1">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_08sbu6j">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0s2inye">
+          <text>true</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0c5j6xp">
+          <text>2</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1vcjtt4">
+        <inputEntry id="UnaryTests_0gv3sme">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0yqkwwk">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1m13mcx">
+          <text>false</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0xz8llo">
+          <text>1</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0hxslzw">
+        <inputEntry id="UnaryTests_1foq6ju">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1qyw3xf">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0zgz9gx">
+          <text>true</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0hj6v53">
+          <text>2</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0h3t1ri">
+        <inputEntry id="UnaryTests_1pg4b84">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1unv36f">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0k84xts">
+          <text>false</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_09z0pkr">
+          <text>1</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <inputData id="InputData_1eimli0" name="spc" />
+  <inputData id="InputData_1pn6phh" name="serasa" />
+  <inputData id="InputData_0eqg8rk" name="bacen" />
+  <inputData id="InputData_0wagpww" name="possuiImovel" />
+  <inputData id="InputData_0fl2oe1" name="possuiAutomovel" />
+  <decision id="RiscoBens" name="RiscoBens" camunda:versionTag="v1.0">
+    <informationRequirement id="InformationRequirement_0f2eib3">
+      <requiredInput href="#InputData_0fl2oe1" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_0u06923">
+      <requiredDecision href="#RiscoRestricoes" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_1u53jx0">
+      <requiredInput href="#InputData_0wagpww" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_1w9u2iz">
+      <input id="InputClause_1p3x7vp" label="possui garantia de bem imóvel" biodi:width="255">
+        <inputExpression id="LiteralExpression_1k1ejc3" typeRef="boolean">
+          <text>temImovel</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_09jk6et" label="possui garantia de bem móvel" biodi:width="240">
+        <inputExpression id="LiteralExpression_0nombt1" typeRef="boolean">
+          <text>temAutomovel</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_1p1hkec" label="Peso na Avaliação de Restrição (0,1,2)" biodi:width="317">
+        <inputExpression id="LiteralExpression_0w7qt0w" typeRef="integer">
+          <text>peso</text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_0p9st68" label="Nivel de Risco do Cliente" name="nivel" typeRef="string" biodi:width="214" />
+      <output id="OutputClause_0g9ieke" label="% Max Liberado" name="percentualMax" typeRef="double" biodi:width="150" />
+      <rule id="DecisionRule_0aict1y">
+        <description>Define nível de risco "Baixo" com valor de empréstimo máximo de 70% de sua renda</description>
+        <inputEntry id="UnaryTests_1647jyo">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1f7kfqd">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1gr83ai">
+          <text>0</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1pesw1s">
+          <text>"baixo"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0ec8z7g">
+          <text>70</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1ank9yq">
+        <description>Define nível de risco "Baixo" com valor de empréstimo máximo de 60% de sua renda</description>
+        <inputEntry id="UnaryTests_0o8ovt9">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0qsg518">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1iisn8t">
+          <text>0</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1epga30">
+          <text>"baixo"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1gnxm24">
+          <text>60</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1llhzrd">
+        <description>Define nível de risco "Baixo" com valor de empréstimo máximo de 55% de sua renda</description>
+        <inputEntry id="UnaryTests_1bizzjf">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0iyyz5z">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0vvgjdm">
+          <text>0</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1unms70">
+          <text>"baixo"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0isjqns">
+          <text>55</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0ow5ddf">
+        <description>Define nível de risco "Baixo" com valor de empréstimo máximo de50 % de sua renda</description>
+        <inputEntry id="UnaryTests_1ba81w7">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1c6zzsy">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1k7ekbn">
+          <text>0</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1o1mdpg">
           <text>"medio"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0chgh59">
+          <text>50</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0bbbk76">
+        <description>Define nível de risco "Baixo" com valor de empréstimo máximo de 45% de sua renda</description>
+        <inputEntry id="UnaryTests_1427uk2">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0h2dkah">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_14j17h6">
+          <text>1</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1e60vas">
+          <text>"baixo"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_02af2v3">
+          <text>45</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1uppprt">
+        <description>Define nível de risco "Baixo" com valor de empréstimo máximo de 40% de sua renda</description>
+        <inputEntry id="UnaryTests_1k378y3">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_11cbe0e">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_03hfij0">
+          <text>1</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0vqdjr6">
+          <text>"baixo"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0fjae5d">
+          <text>40</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0rtf20e">
+        <description>Define nível de risco "Baixo" com valor de empréstimo máximo de 35% de sua renda</description>
+        <inputEntry id="UnaryTests_08f2d1g">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_12487fb">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1gtdrfr">
+          <text>1</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1iqusl6">
+          <text>"baixo"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1scdicd">
+          <text>35</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1rbepni">
+        <description>Define nível de risco "Médio" com valor de empréstimo máximo de 30% de sua renda</description>
+        <inputEntry id="UnaryTests_0h6qhtz">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1o4nrd5">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0oohv01">
+          <text>1</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0j7dnnv">
+          <text>"medio"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0qyshzb">
+          <text>30</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1hme1ux">
+        <description>Define nível de risco "Médio" com valor de empréstimo máximo de 10% de sua renda</description>
+        <inputEntry id="UnaryTests_134chmw">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0f9kj1f">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_12e1gi9">
+          <text>2</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0yp3ksq">
+          <text>"medio"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_014hwrk">
+          <text>10</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_19ldv7w">
+        <description>Define nível de risco "Alto" com valor de empréstimo máximo de 8% de sua renda</description>
+        <inputEntry id="UnaryTests_0l9swuc">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0oft9ar">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1s8oxhj">
+          <text>2</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_05o92wa">
+          <text>"alto"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1hwgrbb">
+          <text>8</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0bin463">
+        <description>Define nível de risco "Alto" com valor de empréstimo máximo de 7% de sua renda</description>
+        <inputEntry id="UnaryTests_0w8mf5l">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_00oljo6">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1ei95vs">
+          <text>2</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_11h37n7">
+          <text>"alto"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0dip5it">
+          <text>7</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1l3snc9">
+        <description>Define nível de risco "Alto" com valor de empréstimo máximo de 5% de sua renda</description>
+        <inputEntry id="UnaryTests_0a57dgb">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1jstrlg">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_12chrx1">
+          <text>2</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_03a5jt0">
+          <text>"alto"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1hyhktd">
+          <text>5</text>
         </outputEntry>
       </rule>
     </decisionTable>
   </decision>
   <dmndi:DMNDI>
     <dmndi:DMNDiagram>
-      <dmndi:DMNShape dmnElementRef="Decision_0g8rvac">
-        <dc:Bounds height="80" width="180" x="160" y="100" />
+      <dmndi:DMNShape dmnElementRef="RiscoRestricoes">
+        <dc:Bounds height="80" width="180" x="510" y="510" />
       </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_1ca38ph" dmnElementRef="InputData_1eimli0">
+        <dc:Bounds height="45" width="125" x="127" y="467" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_192kftq" dmnElementRef="InputData_1pn6phh">
+        <dc:Bounds height="45" width="125" x="127" y="537" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_13oxdvy" dmnElementRef="InputData_0eqg8rk">
+        <dc:Bounds height="45" width="125" x="127" y="607" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_08gnj1i" dmnElementRef="InputData_0wagpww">
+        <dc:Bounds height="45" width="125" x="117" y="107" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_0fdtaxj" dmnElementRef="InputData_0fl2oe1">
+        <dc:Bounds height="45" width="125" x="117" y="187" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_0eolx0m" dmnElementRef="InformationRequirement_14j4c5p">
+        <di:waypoint x="190" y="607" />
+        <di:waypoint x="600" y="610" />
+        <di:waypoint x="600" y="590" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_1pgduns" dmnElementRef="InformationRequirement_0f2eib3">
+        <di:waypoint x="180" y="232" />
+        <di:waypoint x="570" y="240" />
+        <di:waypoint x="570" y="260" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_1hsg2y2" dmnElementRef="InformationRequirement_1yhdlw3">
+        <di:waypoint x="252" y="560" />
+        <di:waypoint x="490" y="563" />
+        <di:waypoint x="510" y="563" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_04mixob" dmnElementRef="InformationRequirement_0vw55hx">
+        <di:waypoint x="252" y="490" />
+        <di:waypoint x="490" y="537" />
+        <di:waypoint x="510" y="537" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_14pbn90" dmnElementRef="InformationRequirement_0u06923">
+        <di:waypoint x="600" y="510" />
+        <di:waypoint x="600" y="360" />
+        <di:waypoint x="600" y="340" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_015xu92" dmnElementRef="RiscoBens">
+        <dc:Bounds height="80" width="180" x="510" y="260" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_06w2h4h" dmnElementRef="InformationRequirement_1u53jx0">
+        <di:waypoint x="180" y="152" />
+        <di:waypoint x="630" y="240" />
+        <di:waypoint x="630" y="260" />
+      </dmndi:DMNEdge>
     </dmndi:DMNDiagram>
   </dmndi:DMNDI>
 </definitions>
