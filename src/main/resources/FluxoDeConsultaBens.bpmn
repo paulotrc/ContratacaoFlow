@@ -36,7 +36,7 @@
     <bpmn:sequenceFlow id="Flow_0btu257" name="Não" sourceRef="Gateway_1vvn3j6" targetRef="Activity_012mkpl" />
     <bpmn:sequenceFlow id="Flow_0js6dv6" sourceRef="StartEvent_1" targetRef="Gateway_0zgl1j7" />
     <bpmn:sequenceFlow id="Flow_0oqc39p" sourceRef="Activity_153fq3z" targetRef="Activity_1n2rzmb" />
-    <bpmn:businessRuleTask id="Activity_1n2rzmb" name="Valida regras de bem quitado">
+    <bpmn:businessRuleTask id="Activity_1n2rzmb" name="Valida regras de bem quitado" camunda:resultVariable="bemQuitado" camunda:decisionRef="RegraValidacaoBemQuitado" camunda:mapDecisionResult="singleEntry">
       <bpmn:incoming>Flow_0oqc39p</bpmn:incoming>
       <bpmn:incoming>Flow_0mkoc0s</bpmn:incoming>
       <bpmn:outgoing>Flow_10h82e0</bpmn:outgoing>
