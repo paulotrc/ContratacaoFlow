@@ -39,7 +39,7 @@
       <bpmn:outgoing>Flow_00yrwpi</bpmn:outgoing>
     </bpmn:callActivity>
     <bpmn:sequenceFlow id="Flow_00yrwpi" sourceRef="Activity_0bo15si" targetRef="Activity_0zaxpkl" />
-    <bpmn:callActivity id="Activity_0zaxpkl" name="Subfluxo de Consulta Restrições">
+    <bpmn:callActivity id="Activity_0zaxpkl" name="Subfluxo de Consulta Restrições" calledElement="SubfluxoConsultaRestricoes">
       <bpmn:extensionElements>
         <camunda:out variables="all" />
         <camunda:in variables="all" />
@@ -48,12 +48,23 @@
           <camunda:outputParameter name="temImovel">${temImovel}</camunda:outputParameter>
           <camunda:outputParameter name="temAutomovel">${temAutomovel}</camunda:outputParameter>
         </camunda:inputOutput>
+        <camunda:in businessKey="#{execution.processBusinessKey}" />
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_00yrwpi</bpmn:incoming>
       <bpmn:outgoing>Flow_0agb888</bpmn:outgoing>
     </bpmn:callActivity>
     <bpmn:sequenceFlow id="Flow_0agb888" sourceRef="Activity_0zaxpkl" targetRef="RiscoCliente" />
-    <bpmn:callActivity id="Activity_1hl0t3v" name="Subfluxo de Cadastro de Risco Cliente">
+    <bpmn:callActivity id="Activity_1hl0t3v" name="Subfluxo de Cadastro de Risco Cliente" calledElement="SubfluxoCadastrarRiscoCliente">
+      <bpmn:extensionElements>
+        <camunda:in businessKey="#{execution.processBusinessKey}" />
+        <camunda:in variables="all" />
+        <camunda:out variables="all" />
+        <camunda:inputOutput>
+          <camunda:outputParameter name="cpf">${cpf}</camunda:outputParameter>
+          <camunda:outputParameter name="temAutomovel">${temAutomovel}</camunda:outputParameter>
+          <camunda:outputParameter name="temImovel">${temImovel}</camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
       <bpmn:incoming>Flow_0wtiubr</bpmn:incoming>
       <bpmn:outgoing>Flow_112c7xc</bpmn:outgoing>
     </bpmn:callActivity>
