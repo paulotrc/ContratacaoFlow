@@ -1,0 +1,59 @@
+{
+  "components": [
+    {
+      "text": "# Teste Form",
+      "type": "text",
+      "id": "Field_0q4tfdi"
+    },
+    {
+      "values": [
+        {
+          "label": "Valor 1",
+          "value": "1"
+        },
+        {
+          "label": "Valor 2",
+          "value": "2"
+        }
+      ],
+      "label": "Opções",
+      "type": "radio",
+      "id": "Field_04trhcw",
+      "key": "options",
+      "defaultValue": "<none>"
+    },
+    {
+      "values": [
+        {
+          "label": "Booleano true",
+          "value": "true"
+        },
+        {
+          "label": "Booleano false",
+          "value": "false"
+        }
+      ],
+      "label": "Opções 2",
+      "type": "radio",
+      "id": "Field_1654fmr",
+      "key": "options2",
+      "properties": {}
+    },
+    {
+      "action": "submit",
+      "label": "Enviar",
+      "type": "button",
+      "id": "Field_1d9ph59",
+      "key": "field_17gj1a6"
+    }
+  ],
+  "type": "default",
+  "id": "Form_teste",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.7.0"
+  },
+  "executionPlatform": "Camunda Platform",
+  "executionPlatformVersion": "7.18.0",
+  "schemaVersion": 6
+}
