@@ -3,6 +3,16 @@ server:
   servlet:
     context-path: /orquestrador
 
+# custom path for swagger-ui
+springdoc:
+  swagger-ui:
+    path: /swaggerui.html
+    operationsSorter: alpha
+    tagsSorter: alpha
+  # custom path for api docs
+  api-docs:
+    path: /api-docs
+
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/camunda
