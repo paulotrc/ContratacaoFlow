@@ -28,7 +28,7 @@
       </input>
       <output id="Output_1" label="Peso (0,1,2)" name="peso" typeRef="integer" />
       <rule id="DecisionRule_1mojztq">
-        <description>Define o peso baseado nas restrições do cliente</description>
+        <description>Peso 2 para clientes com restrições mais graves</description>
         <inputEntry id="UnaryTests_1bnezqy">
           <text>true</text>
         </inputEntry>
@@ -58,6 +58,7 @@
         </outputEntry>
       </rule>
       <rule id="DecisionRule_0ie10tl">
+        <description>Peso 2 para clientes com restrições mais graves</description>
         <inputEntry id="UnaryTests_15hggyc">
           <text>false</text>
         </inputEntry>
@@ -72,6 +73,7 @@
         </outputEntry>
       </rule>
       <rule id="DecisionRule_10pibyy">
+        <description>Peso 1 para clientes com restrições menos graves</description>
         <inputEntry id="UnaryTests_1dkw52f">
           <text>true</text>
         </inputEntry>
@@ -86,6 +88,7 @@
         </outputEntry>
       </rule>
       <rule id="DecisionRule_17lpdz4">
+        <description>Peso 2 para clientes com restrições mais graves</description>
         <inputEntry id="UnaryTests_1al2gw1">
           <text>false</text>
         </inputEntry>
@@ -100,6 +103,7 @@
         </outputEntry>
       </rule>
       <rule id="DecisionRule_1vcjtt4">
+        <description>Peso 1 para clientes com restrições menos graves</description>
         <inputEntry id="UnaryTests_0gv3sme">
           <text>true</text>
         </inputEntry>
@@ -114,6 +118,7 @@
         </outputEntry>
       </rule>
       <rule id="DecisionRule_0hxslzw">
+        <description>Peso 2 para clientes com restrições mais graves</description>
         <inputEntry id="UnaryTests_1foq6ju">
           <text>true</text>
         </inputEntry>
@@ -128,6 +133,7 @@
         </outputEntry>
       </rule>
       <rule id="DecisionRule_0h3t1ri">
+        <description>Peso 1 para clientes com restrições menos graves</description>
         <inputEntry id="UnaryTests_1pg4b84">
           <text>false</text>
         </inputEntry>

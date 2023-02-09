@@ -1,6 +1,7 @@
 package br.paulotrc.contratacaoflow.transportlayers;
 
-import br.paulotrc.contratacaoflow.entities.OrquestradorRequest;
+import br.paulotrc.contratacaoflow.entities.EmprestimoRequest;
+import br.paulotrc.contratacaoflow.entities.EmprestimoResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -18,13 +19,13 @@ import javax.validation.Valid;
 
 @Tag(name = "Orquestrador", description = "Operações para orquestração")
 @RequestMapping(value = "/api/v1")
-public interface OrquestradorResourceI {
+public interface EmprestimoResourceI {
 
     @Operation(summary = "Executar uma operação de orquestração de empréstimo")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Emprestimo executado",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = OrquestradorRequest.class))}),
+                            schema = @Schema(implementation = EmprestimoResponse.class))}),
             @ApiResponse(responseCode = "400", description = "Erro ao executar",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = Void.class))}),
@@ -35,8 +36,8 @@ public interface OrquestradorResourceI {
     })
     @PostMapping (value = "/execute/cpf/{cpf}", produces = {MediaType.APPLICATION_JSON_VALUE})
     @Valid
-    ResponseEntity<OrquestradorRequest> get(
+    ResponseEntity<EmprestimoResponse> get(
             @Parameter(name = "cpf", description = "Número do CPF para empréstimo", required = true)
-            @PathVariable("cpf") long cpf
+            @PathVariable("cpf") String cpf
     );
 }

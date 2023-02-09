@@ -7,8 +7,8 @@ import lombok.Getter;
 @Getter
 @Builder
 @AllArgsConstructor
-public class OrquestradorRequest {
+public class EmprestimoRequest {
 
-    private long cpfVar;
+    private String cpfVar;
 
 }

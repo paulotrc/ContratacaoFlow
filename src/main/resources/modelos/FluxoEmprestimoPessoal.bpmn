@@ -1,18 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" xmlns:color="http://www.omg.org/spec/BPMN/non-normative/color/1.0" id="Definitions_0fr9mxs" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.7.0">
-  <bpmn:process id="ContratacaoFlow-process" name="Fluxo de Contratação de Empréstimo" isExecutable="true" camunda:versionTag="v1.0">
+  <bpmn:process id="OfertarEmprestimoFlow-process" name="Fluxo de Contratação de Empréstimo" isExecutable="true" camunda:versionTag="v1.1">
     <bpmn:startEvent id="StartEvent_1" name="Ofertar Empréstimo">
       <bpmn:outgoing>SequenceFlow_1fp17al</bpmn:outgoing>
     </bpmn:startEvent>
     <bpmn:sequenceFlow id="SequenceFlow_1fp17al" sourceRef="StartEvent_1" targetRef="Activity_0n1r6xj" />
     <bpmn:endEvent id="EndEvent_0x6ir2l" name="Fim ofertar empréstimo">
-      <bpmn:incoming>Flow_092qaqo</bpmn:incoming>
-      <bpmn:incoming>Flow_10n482f</bpmn:incoming>
+      <bpmn:incoming>Flow_16anncn</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:task id="Activity_0n1r6xj" name="Consulta Dados Cliente">
-      <bpmn:incoming>SequenceFlow_1fp17al</bpmn:incoming>
-      <bpmn:outgoing>Flow_16sawvh</bpmn:outgoing>
-    </bpmn:task>
     <bpmn:sequenceFlow id="Flow_0wtiubr" sourceRef="RiscoCliente" targetRef="Activity_1hl0t3v" />
     <bpmn:businessRuleTask id="RiscoCliente" name="Aplicar Regra Risco Cliente" camunda:resultVariable="riscoResult" camunda:decisionRef="RiscoCliente">
       <bpmn:incoming>Flow_0agb888</bpmn:incoming>
@@ -22,7 +17,7 @@
       <bpmn:incoming>Flow_14oztzc</bpmn:incoming>
       <bpmn:outgoing>Flow_092qaqo</bpmn:outgoing>
     </bpmn:task>
-    <bpmn:sequenceFlow id="Flow_092qaqo" sourceRef="Activity_1jpmux9" targetRef="EndEvent_0x6ir2l" />
+    <bpmn:sequenceFlow id="Flow_092qaqo" sourceRef="Activity_1jpmux9" targetRef="Gateway_1mpui81" />
     <bpmn:sequenceFlow id="Flow_16sawvh" sourceRef="Activity_0n1r6xj" targetRef="Activity_0bo15si" />
     <bpmn:callActivity id="Activity_0bo15si" name="Subfluxo de Consulta de Bens" calledElement="SubfluxoConsultaBens">
       <bpmn:extensionElements>
@@ -82,25 +77,35 @@
       <bpmn:outgoing>Flow_10n482f</bpmn:outgoing>
     </bpmn:task>
     <bpmn:sequenceFlow id="Flow_0m6f7jd" name="Não" sourceRef="Gateway_0iif07p" targetRef="Activity_1pcby6w" />
-    <bpmn:sequenceFlow id="Flow_10n482f" sourceRef="Activity_1pcby6w" targetRef="EndEvent_0x6ir2l" />
+    <bpmn:sequenceFlow id="Flow_10n482f" sourceRef="Activity_1pcby6w" targetRef="Gateway_1mpui81" />
+    <bpmn:serviceTask id="Activity_0n1r6xj" name="Consulta Dados Cliente" camunda:delegateExpression="taskConsultarCliente">
+      <bpmn:incoming>SequenceFlow_1fp17al</bpmn:incoming>
+      <bpmn:outgoing>Flow_16sawvh</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="Gateway_1mpui81">
+      <bpmn:incoming>Flow_10n482f</bpmn:incoming>
+      <bpmn:incoming>Flow_092qaqo</bpmn:incoming>
+      <bpmn:outgoing>Flow_16anncn</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_16anncn" sourceRef="Gateway_1mpui81" targetRef="EndEvent_0x6ir2l" />
+    <bpmn:boundaryEvent id="Event_1t9om37" name="Cliente Exception throwed" attachedToRef="Activity_0n1r6xj">
+      <bpmn:outgoing>Flow_0e8nm0m</bpmn:outgoing>
+      <bpmn:errorEventDefinition id="ErrorEventDefinition_17zdzxp" errorRef="Error_1oc5tdd" camunda:errorCodeVariable="ERROR_CLIENTE" camunda:errorMessageVariable="ERROR_CLIENTE" />
+    </bpmn:boundaryEvent>
+    <bpmn:sequenceFlow id="Flow_0e8nm0m" sourceRef="Event_1t9om37" targetRef="Event_0ykl10v" />
+    <bpmn:endEvent id="Event_0ykl10v" name="End flow with exception">
+      <bpmn:incoming>Flow_0e8nm0m</bpmn:incoming>
+      <bpmn:errorEventDefinition id="ErrorEventDefinition_1gicdwm" errorRef="Error_1oc5tdd" />
+    </bpmn:endEvent>
   </bpmn:process>
+  <bpmn:error id="Error_1oc5tdd" name="ERROR_CLIENTE" errorCode="ERROR_CLIENTE" camunda:errorMessage="ERROR_CLIENTE" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
-    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="ContratacaoFlow-process">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="OfertarEmprestimoFlow-process">
       <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
         <dc:Bounds x="179" y="142" width="36" height="36" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="168" y="185" width="59" height="27" />
         </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="EndEvent_0x6ir2l_di" bpmnElement="EndEvent_0x6ir2l">
-        <dc:Bounds x="1412" y="142" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="1402" y="185" width="58" height="27" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0n1r6xj_di" bpmnElement="Activity_0n1r6xj" bioc:stroke="#205022" bioc:fill="#c8e6c9" color:background-color="#c8e6c9" color:border-color="#205022">
-        <dc:Bounds x="280" y="120" width="100" height="80" />
-        <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0j869zj_di" bpmnElement="RiscoCliente" bioc:stroke="#831311" bioc:fill="#ffcdd2" color:background-color="#ffcdd2" color:border-color="#831311">
         <dc:Bounds x="770" y="120" width="100" height="80" />
@@ -132,6 +137,30 @@
         <dc:Bounds x="1250" y="230" width="100" height="80" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_09zsqda_di" bpmnElement="Activity_0n1r6xj" bioc:stroke="#205022" bioc:fill="#c8e6c9" color:background-color="#c8e6c9" color:border-color="#205022">
+        <dc:Bounds x="280" y="120" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_0x6ir2l_di" bpmnElement="EndEvent_0x6ir2l">
+        <dc:Bounds x="1462" y="142" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1452" y="185" width="58" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1mpui81_di" bpmnElement="Gateway_1mpui81" isMarkerVisible="true">
+        <dc:Bounds x="1375" y="135" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_12ctem6_di" bpmnElement="Event_0ykl10v">
+        <dc:Bounds x="372" y="262" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="358" y="305" width="65" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1duwx2d_di" bpmnElement="Event_1t9om37">
+        <dc:Bounds x="332" y="182" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="357" y="218" width="86" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_1fp17al_di" bpmnElement="SequenceFlow_1fp17al">
         <di:waypoint x="215" y="160" />
         <di:waypoint x="280" y="160" />
@@ -142,7 +171,7 @@
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_092qaqo_di" bpmnElement="Flow_092qaqo">
         <di:waypoint x="1350" y="160" />
-        <di:waypoint x="1412" y="160" />
+        <di:waypoint x="1375" y="160" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_16sawvh_di" bpmnElement="Flow_16sawvh">
         <di:waypoint x="380" y="160" />
@@ -177,9 +206,17 @@
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_10n482f_di" bpmnElement="Flow_10n482f">
         <di:waypoint x="1350" y="270" />
-        <di:waypoint x="1381" y="270" />
-        <di:waypoint x="1381" y="160" />
-        <di:waypoint x="1412" y="160" />
+        <di:waypoint x="1400" y="270" />
+        <di:waypoint x="1400" y="185" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_16anncn_di" bpmnElement="Flow_16anncn">
+        <di:waypoint x="1425" y="160" />
+        <di:waypoint x="1462" y="160" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0e8nm0m_di" bpmnElement="Flow_0e8nm0m">
+        <di:waypoint x="350" y="218" />
+        <di:waypoint x="350" y="280" />
+        <di:waypoint x="372" y="280" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
