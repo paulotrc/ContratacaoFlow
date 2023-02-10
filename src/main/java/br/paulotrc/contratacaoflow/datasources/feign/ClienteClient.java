@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.util.List;
+
 @Service
 @FeignClient(name = "cliente",
         url = "${svc.clientes.url_cpf}",
@@ -17,6 +19,6 @@ public interface ClienteClient {
 
     @GetMapping("/{cpf}")
     @Headers({"Content-Type: application/json"})
-    ResponseClienteData consultarCliente(@PathVariable(name = "cpf") String cpf);
+    List<ResponseClienteData> consultarCliente(@PathVariable(name = "cpf") String cpf);
 
 }

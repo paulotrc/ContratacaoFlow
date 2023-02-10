@@ -5,7 +5,7 @@
       <bpmn:outgoing>Flow_0js6dv6</bpmn:outgoing>
     </bpmn:startEvent>
     <bpmn:exclusiveGateway id="Gateway_0zgl1j7" name="Cliente tem bens imóveis para garantia?" default="Flow_134jza3">
-      <bpmn:incoming>Flow_0js6dv6</bpmn:incoming>
+      <bpmn:incoming>Flow_0w0np4a</bpmn:incoming>
       <bpmn:outgoing>Flow_1ylazhg</bpmn:outgoing>
       <bpmn:outgoing>Flow_134jza3</bpmn:outgoing>
     </bpmn:exclusiveGateway>
@@ -34,7 +34,7 @@
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${temAutomovel}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_0btu257" name="Não" sourceRef="Gateway_1vvn3j6" targetRef="Activity_012mkpl" />
-    <bpmn:sequenceFlow id="Flow_0js6dv6" sourceRef="StartEvent_1" targetRef="Gateway_0zgl1j7" />
+    <bpmn:sequenceFlow id="Flow_0js6dv6" sourceRef="StartEvent_1" targetRef="Activity_18zz5mo" />
     <bpmn:sequenceFlow id="Flow_0oqc39p" sourceRef="Activity_153fq3z" targetRef="Activity_1n2rzmb" />
     <bpmn:businessRuleTask id="Activity_1n2rzmb" name="Valida regras de bem quitado" camunda:resultVariable="bemQuitado" camunda:decisionRef="RegraValidacaoBemQuitado" camunda:mapDecisionResult="singleEntry">
       <bpmn:incoming>Flow_0oqc39p</bpmn:incoming>
@@ -48,6 +48,21 @@
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="Flow_16extpf" sourceRef="Activity_012mkpl" targetRef="Event_17flo2n" />
     <bpmn:sequenceFlow id="Flow_10h82e0" sourceRef="Activity_1n2rzmb" targetRef="Event_17flo2n" />
+    <bpmn:task id="Activity_18zz5mo" name="TempTask">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:outputParameter name="dataFimContratoMaiorQueDataAtual">
+            <camunda:script scriptFormat="javascript">Boolean(false);</camunda:script>
+          </camunda:outputParameter>
+          <camunda:outputParameter name="parcelasEmAberto">
+            <camunda:script scriptFormat="javascript">Boolean(false);</camunda:script>
+          </camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0js6dv6</bpmn:incoming>
+      <bpmn:outgoing>Flow_0w0np4a</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:sequenceFlow id="Flow_0w0np4a" sourceRef="Activity_18zz5mo" targetRef="Gateway_0zgl1j7" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="SubfluxoConsultaBens">
@@ -91,6 +106,10 @@
           <dc:Bounds x="969" y="222" width="83" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_18zz5mo_di" bpmnElement="Activity_18zz5mo">
+        <dc:Bounds x="230" y="137" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_1ylazhg_di" bpmnElement="Flow_1ylazhg" bioc:stroke="#205022" color:border-color="#205022">
         <di:waypoint x="425" y="177" />
         <di:waypoint x="550" y="177" />
@@ -122,9 +141,9 @@
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0js6dv6_di" bpmnElement="Flow_0js6dv6">
         <di:waypoint x="178" y="300" />
-        <di:waypoint x="230" y="300" />
+        <di:waypoint x="200" y="300" />
+        <di:waypoint x="200" y="177" />
         <di:waypoint x="230" y="177" />
-        <di:waypoint x="375" y="177" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0oqc39p_di" bpmnElement="Flow_0oqc39p">
         <di:waypoint x="650" y="177" />
@@ -145,6 +164,10 @@
         <di:waypoint x="910" y="177" />
         <di:waypoint x="910" y="270" />
         <di:waypoint x="992" y="270" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0w0np4a_di" bpmnElement="Flow_0w0np4a">
+        <di:waypoint x="330" y="177" />
+        <di:waypoint x="375" y="177" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

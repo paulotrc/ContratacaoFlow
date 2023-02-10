@@ -20,6 +20,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 
+import java.util.List;
+
 @Component
 public class TaskConsultarCliente implements JavaDelegate {
 
@@ -30,8 +32,7 @@ public class TaskConsultarCliente implements JavaDelegate {
     public TaskConsultarCliente(ClienteRepository clienteRepository) {
         this.clienteRepository = clienteRepository;
     }
-    @CircuitBreaker(name = "processServiceCliente", fallbackMethod = "fallback")
-    @Retry(name = "default")
+
     @Override
     public void execute(DelegateExecution execution) throws JsonProcessingException {
 
@@ -40,11 +41,11 @@ public class TaskConsultarCliente implements JavaDelegate {
             ObjectMapper mapper = new ObjectMapper();
             String cpf = execution.getVariable(CamundaProcessVariables.CPF).toString();
 
-            ResponseClienteData responseClienteData = clienteRepository.consultarCliente(cpf);
+            List<ResponseClienteData> responseClienteData = clienteRepository.consultarCliente(cpf);
 
-            execution.setVariable(CamundaProcessVariables.TEM_IMOVEL, responseClienteData.getTemImovel());
-            execution.setVariable(CamundaProcessVariables.TEM_AUTOMOVEL, responseClienteData.getTemAutomovel());
-            execution.setVariable(CamundaProcessVariables.RENDA, responseClienteData.getRenda());
+            execution.setVariable(CamundaProcessVariables.TEM_IMOVEL, responseClienteData.get(0).getTemImovel());
+            execution.setVariable(CamundaProcessVariables.TEM_AUTOMOVEL, responseClienteData.get(0).getTemAutomovel());
+            execution.setVariable(CamundaProcessVariables.RENDA, responseClienteData.get(0).getRenda());
             log.info("TaskConsultarCliente - Fim");
         } catch (BpmnModelException e) {
 

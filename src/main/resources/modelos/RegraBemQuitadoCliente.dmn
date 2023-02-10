@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:modeler="http://camunda.org/schema/modeler/1.0" xmlns:camunda="http://camunda.org/schema/1.0/dmn" id="RegraValidacaoBemQuitado_ID" name="DRD" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="5.7.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.18.0">
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:modeler="http://camunda.org/schema/modeler/1.0" xmlns:camunda="http://camunda.org/schema/1.0/dmn" xmlns:biodi="http://bpmn.io/schema/dmn/biodi/2.0" id="RegraValidacaoBemQuitado_ID" name="DRD" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="5.7.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.18.0">
   <decision id="RegraValidacaoBemQuitado" name="Regra de validação de bem quitado do Cliente" camunda:versionTag="v1.0">
     <decisionTable id="DecisionTable_0l0wf76">
-      <input id="Input_1" label="Data final do contrato">
-        <inputExpression id="InputExpression_1" typeRef="date">
-          <text>dataFimContrato</text>
+      <input id="Input_1" label="Data final do contrato maior que a data atual?" biodi:width="363">
+        <inputExpression id="InputExpression_1" typeRef="boolean" expressionLanguage="feel">
+          <text>dataFimContratoMaiorQueDataAtual</text>
         </inputExpression>
       </input>
       <input id="InputClause_02m4hw3" label="Tem Parcelas em Aberto">
@@ -15,7 +15,7 @@
       <output id="Output_1" label="O Bem está Quitado" name="bemQuitado" typeRef="boolean" />
       <rule id="DecisionRule_0g7f25w">
         <inputEntry id="UnaryTests_1cc206l">
-          <text>&gt;= dataHoje</text>
+          <text>true</text>
         </inputEntry>
         <inputEntry id="UnaryTests_145fhqk">
           <text>true</text>
@@ -26,7 +26,7 @@
       </rule>
       <rule id="DecisionRule_1hl8j4b">
         <inputEntry id="UnaryTests_15djzlo">
-          <text>&gt;= dataHoje</text>
+          <text>true</text>
         </inputEntry>
         <inputEntry id="UnaryTests_0hbov0d">
           <text>false</text>
@@ -37,7 +37,7 @@
       </rule>
       <rule id="DecisionRule_1tkil3z">
         <inputEntry id="UnaryTests_1e1ocy7">
-          <text>&lt; dataHoje</text>
+          <text>false</text>
         </inputEntry>
         <inputEntry id="UnaryTests_1e2chgp">
           <text>true</text>
@@ -48,7 +48,7 @@
       </rule>
       <rule id="DecisionRule_0ftlyai">
         <inputEntry id="UnaryTests_0mkduu6">
-          <text>&lt; dataHoje</text>
+          <text>false</text>
         </inputEntry>
         <inputEntry id="UnaryTests_10xi9kj">
           <text>false</text>

@@ -17,6 +17,8 @@ public final class CamundaProcessVariables {
 
     public static final String RENDA = "renda";
 
+    public static final String RESULT_CALCULO_RISCO = "riscoResult";
+
     public static final String PERCENTUAL_LIBERADO = "percentualMax";
 
     public static final String RISCO = "nivel";

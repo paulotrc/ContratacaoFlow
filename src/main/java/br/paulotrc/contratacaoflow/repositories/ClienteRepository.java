@@ -5,7 +5,9 @@ import br.paulotrc.contratacaoflow.entities.EmprestimoResponse;
 import br.paulotrc.contratacaoflow.entities.ResponseClienteData;
 import br.paulotrc.contratacaoflow.exceptions.ResourceException;
 
+import java.util.List;
+
 public interface ClienteRepository {
 
-    ResponseClienteData consultarCliente(String cpf);
+    List<ResponseClienteData> consultarCliente(String cpf);
 }

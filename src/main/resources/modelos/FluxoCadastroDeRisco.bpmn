@@ -10,18 +10,6 @@
       <bpmn:outgoing>Flow_0z1d677</bpmn:outgoing>
       <bpmn:outgoing>Flow_02whs15</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:task id="Activity_1a2ezjf" name="Cadastrar Cliente como Risco Médio">
-      <bpmn:incoming>Flow_189ns1u</bpmn:incoming>
-      <bpmn:outgoing>Flow_1rnhh5y</bpmn:outgoing>
-    </bpmn:task>
-    <bpmn:task id="Activity_07ohh32" name="Cadastrar Cliente como Risco Baixo">
-      <bpmn:incoming>Flow_0z1d677</bpmn:incoming>
-      <bpmn:outgoing>Flow_0xpyv1d</bpmn:outgoing>
-    </bpmn:task>
-    <bpmn:task id="Activity_1pypl65" name="Cadastrar Cliente como Risco Alto">
-      <bpmn:incoming>Flow_02whs15</bpmn:incoming>
-      <bpmn:outgoing>Flow_1n1xqzy</bpmn:outgoing>
-    </bpmn:task>
     <bpmn:exclusiveGateway id="Gateway_0gv00x4">
       <bpmn:incoming>Flow_1rnhh5y</bpmn:incoming>
       <bpmn:incoming>Flow_0xpyv1d</bpmn:incoming>
@@ -43,6 +31,39 @@
       <bpmn:incoming>Flow_1a558el</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="Flow_1a558el" sourceRef="Gateway_0gv00x4" targetRef="Event_156fxt1" />
+    <bpmn:userTask id="Activity_1pypl65" name="Cadastrar Cliente como Risco Alto">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:outputParameter name="podeTomarEmprestimo">
+            <camunda:script scriptFormat="javascript">Boolean(false);</camunda:script>
+          </camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_02whs15</bpmn:incoming>
+      <bpmn:outgoing>Flow_1n1xqzy</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="Activity_1a2ezjf" name="Cadastrar Cliente como Risco Médio">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:outputParameter name="podeTomarEmprestimo">
+            <camunda:script scriptFormat="javascript">Boolean(true);</camunda:script>
+          </camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_189ns1u</bpmn:incoming>
+      <bpmn:outgoing>Flow_1rnhh5y</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="Activity_07ohh32" name="Cadastrar Cliente como Risco Baixo">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:outputParameter name="podeTomarEmprestimo">
+            <camunda:script scriptFormat="javascript">Boolean(true);</camunda:script>
+          </camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0z1d677</bpmn:incoming>
+      <bpmn:outgoing>Flow_0xpyv1d</bpmn:outgoing>
+    </bpmn:userTask>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="SubfluxoCadastrarRiscoCliente">
@@ -55,18 +76,6 @@
       <bpmndi:BPMNShape id="Gateway_0w19m80_di" bpmnElement="Gateway_0w19m80" isMarkerVisible="true">
         <dc:Bounds x="295" y="225" width="50" height="50" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_1a2ezjf_di" bpmnElement="Activity_1a2ezjf" bioc:stroke="#205022" bioc:fill="#c8e6c9" color:background-color="#c8e6c9" color:border-color="#205022">
-        <dc:Bounds x="440" y="210" width="100" height="80" />
-        <bpmndi:BPMNLabel />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_07ohh32_di" bpmnElement="Activity_07ohh32" bioc:stroke="#205022" bioc:fill="#c8e6c9" color:background-color="#c8e6c9" color:border-color="#205022">
-        <dc:Bounds x="440" y="370" width="100" height="80" />
-        <bpmndi:BPMNLabel />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_1pypl65_di" bpmnElement="Activity_1pypl65" bioc:stroke="#205022" bioc:fill="#c8e6c9" color:background-color="#c8e6c9" color:border-color="#205022">
-        <dc:Bounds x="440" y="50" width="100" height="80" />
-        <bpmndi:BPMNLabel />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Gateway_0gv00x4_di" bpmnElement="Gateway_0gv00x4" isMarkerVisible="true">
         <dc:Bounds x="635" y="225" width="50" height="50" />
       </bpmndi:BPMNShape>
@@ -75,6 +84,15 @@
         <bpmndi:BPMNLabel>
           <dc:Bounds x="735" y="275" width="71" height="27" />
         </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_04j9m0e_di" bpmnElement="Activity_1pypl65" bioc:stroke="#205022" bioc:fill="#c8e6c9" color:background-color="#c8e6c9" color:border-color="#205022">
+        <dc:Bounds x="440" y="50" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_042bebr_di" bpmnElement="Activity_1a2ezjf" bioc:stroke="#205022" bioc:fill="#c8e6c9" color:background-color="#c8e6c9" color:border-color="#205022">
+        <dc:Bounds x="440" y="210" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_012b5z1_di" bpmnElement="Activity_07ohh32" bioc:stroke="#205022" bioc:fill="#c8e6c9" color:background-color="#c8e6c9" color:border-color="#205022">
+        <dc:Bounds x="440" y="370" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_189ns1u_di" bpmnElement="Flow_189ns1u">
         <di:waypoint x="345" y="250" />

@@ -11,14 +11,35 @@
       <bpmn:outgoing>Flow_1cywxr4</bpmn:outgoing>
     </bpmn:parallelGateway>
     <bpmn:task id="Activity_0hs4ouy" name="Consulta SPC">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:outputParameter name="spc">
+            <camunda:script scriptFormat="javascript">Boolean(false);</camunda:script>
+          </camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
       <bpmn:incoming>Flow_09hwztq</bpmn:incoming>
       <bpmn:outgoing>Flow_1tvomfn</bpmn:outgoing>
     </bpmn:task>
     <bpmn:task id="Activity_0ohmm2d" name="Consulta BACEN">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:outputParameter name="bacen">
+            <camunda:script scriptFormat="javascript">Boolean(false);</camunda:script>
+          </camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
       <bpmn:incoming>Flow_1cywxr4</bpmn:incoming>
       <bpmn:outgoing>Flow_1eg0gkw</bpmn:outgoing>
     </bpmn:task>
     <bpmn:task id="say-hello" name="Consulta Serasa">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:outputParameter name="serasa">
+            <camunda:script scriptFormat="javascript">Boolean(true);</camunda:script>
+          </camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
       <bpmn:incoming>Flow_1ewobc3</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_16gzt2m</bpmn:outgoing>
     </bpmn:task>
