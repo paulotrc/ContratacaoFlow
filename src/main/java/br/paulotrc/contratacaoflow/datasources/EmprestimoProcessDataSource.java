@@ -47,7 +47,7 @@ public class EmprestimoProcessDataSource implements EmprestimoProcessRepository 
         }catch (Exception e) {
             log.error(MensagemDataSource.Erro.LOG, e.getMessage(), e.getCause(), e.getStackTrace());
             ResourceException resourceException =  ExceptionUtil.generateException(HttpStatus.INTERNAL_SERVER_ERROR.toString(),
-                    MensagemDataSource.MessageDataSource.JSON_ERROR_EXCEPTION, e.getMessage(),
+                    MensagemDataSource.MessageDataSource.INTERNAL_ERROR_EXCEPTION, e.getMessage(),
                     MensagemDataSource.Origem.SERVICE_CLIENTE);
             throw resourceException;
         }

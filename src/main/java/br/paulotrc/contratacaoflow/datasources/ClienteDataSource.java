@@ -14,7 +14,7 @@ public class ClienteDataSource implements ClienteRepository {
 
     private static final String MESSAGE_JSON_ERROR = "Falha ao recuperar os dados de Cliente!";
 
-    private final ClienteClient clienteClient;
+    private ClienteClient clienteClient;
 
     @Override
     public ResponseClienteData consultarCliente(String cpf) {

@@ -25,6 +25,7 @@ public final class MensagemDataSource {
         }
 
         public static final String ERRO_CONSULTA_CLIENTE = "Erro ao consultar o cliente";
+        public static final String INTERNAL_ERROR_EXCEPTION = "ERRO AO EXECUTAR UMA OPERAÇÃO";
         public static final String JSON_ERROR_EXCEPTION = "ERRO AO EFETUAR UMA OPERAÇÃO COM JSON";
 
     }

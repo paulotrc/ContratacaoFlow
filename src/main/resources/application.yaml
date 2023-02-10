@@ -1,14 +1,15 @@
 spring:
   application:
     name: contratacaoflow
-server:
-  port: 8081
-  servlet:
-    context-path: /orquestrador
   datasource:
     url: jdbc:postgresql://localhost:5432/camunda
     username: camunda_adm
     password: camunda_adm
+
+server:
+  port: 8081
+  servlet:
+    context-path: /orquestrador
 
 ## Camunda configuration
 ## https://docs.camunda.org/manual/latest/user-guide/spring-boot-integration/configuration/#camunda-engine-properties
@@ -49,43 +50,6 @@ management:
     tags:
       application: ${spring.application.name}
 
-resilience4j:
-  retry:
-    configs:
-      default:
-        maxRetryAttempts: 2
-        waitDuration: 5000
-    instances:
-      global:
-        baseConfig: default
-  circuitbreaker:
-    instances:
-      processServiceCliente:
-        slidingWindowSize: 50
-        minimumNumberOfCalls: 10
-        permittedNumberOfCallsInHalfOpenState: 5
-          #failureRateThreshold: 50
-        waitDurationInOpenState: 20s
-      processService:
-        slidingWindowSize: 50 # tamanho da janela deslizante que é usada para registrar o resultado das chamadas quando o CircuitBreaker é fechado
-        permittedNumberOfCallsInHalfOpenState: 5 # numero de chamadas permitidas quando estado meio aberto
-          # tamanho da janela deslizante que é usada para registrar o resultado das chamadas quando o CircuitBreaker é fechado
-          #        slidingWindowType: TIME_BASED
-        minimumNumberOfCalls: 10 # número mínimo de chamadas que são necessárias (por período de janela deslizante) antes que o CircuitBreaker possa calcular a taxa de erro ou a taxa de chamada lenta.
-        waitDurationInOpenState: 20s # tempo que o CircuitBreaker deve esperar antes de fazer a transição de aberto para semiaberto
-          # limite da taxa de falha em porcentagem. Quando a taxa de falha é igual ou maior que o limite, o CircuitBreaker faz a transição para abrir e inicia chamadas de curto-circuito
-          #        failureRateThreshold: 50
-
-feign:
-  client:
-    config:
-      default:
-        connectTimeout: 2000
-        readTimeout: 1000
-      cliente:
-        connectTimeout: 8000
-        readTimeout: 10000
-
 # custom path for swagger-ui
 springdoc:
   swagger-ui:
@@ -104,3 +68,41 @@ logging:
 svc:
   clientes:
     url_cpf: http://localhost:8091/svc-clientes/api/v1/cliente/
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      processServiceCliente:
+        slidingWindowSize: 50
+        minimumNumberOfCalls: 10
+        permittedNumberOfCallsInHalfOpenState: 5
+        #failureRateThreshold: 50
+        waitDurationInOpenState: 20s
+      processService:
+        # tamanho da janela deslizante que é usada para registrar o resultado das chamadas quando o CircuitBreaker é fechado
+        slidingWindowSize: 50
+        # numero de chamadas permitidas quando estado meio aberto
+        permittedNumberOfCallsInHalfOpenState: 5
+        # tamanho da janela deslizante que é usada para registrar o resultado das chamadas quando o CircuitBreaker é fechado
+        #        slidingWindowType: TIME_BASED
+        # número mínimo de chamadas que são necessárias (por período de janela deslizante) antes que o CircuitBreaker possa calcular a taxa de erro ou a taxa de chamada lenta.
+        minimumNumberOfCalls: 10
+        # tempo que o CircuitBreaker deve esperar antes de fazer a transição de aberto para semiaberto
+        waitDurationInOpenState: 20s
+        # limite da taxa de falha em porcentagem. Quando a taxa de falha é igual ou maior que o limite, o CircuitBreaker faz a transição para abrir e inicia chamadas de curto-circuito
+  #        failureRateThreshold: 50
+  retry:
+    instances:
+      default:
+        max-attempts: 3
+        wait-duration: 1s
+
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 2000
+        readTimeout: 1000
+      cliente:
+        connectTimeout: 4000
+        readTimeout: 3000
