@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class CamundaProcessVariables {
 
-    public static final String EMPRESTIMO_PROCESS_NAME = "OfertarEmprestimoFlow-process";
+    public static final String EMPRESTIMO_PROCESS_NAME = "OfertarEmprestimoFlowProcess";
     public static final String BUSSINESS_KEY = "bussinessKey";
     public static final String CPF = "cpf";
     public static final String STATUS = "status";
