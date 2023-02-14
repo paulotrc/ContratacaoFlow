@@ -1,6 +1,7 @@
-package br.paulotrc.contratacaoflow.datasources.feign.configuration.cliente;
+package br.paulotrc.contratacaoflow.datasources.feign.configuration.imovel;
 
 import br.paulotrc.contratacaoflow.entities.ResponseClienteData;
+import br.paulotrc.contratacaoflow.entities.ResponseImovelClienteData;
 import br.paulotrc.contratacaoflow.exceptions.feign.GatewayResourceIntegrationRuntimeException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import feign.Response;
@@ -10,7 +11,7 @@ import org.springframework.http.HttpStatus;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class ClienteErrorDecoder implements ErrorDecoder {
+public class ImovelErrorDecoder implements ErrorDecoder {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
@@ -19,11 +20,11 @@ public class ClienteErrorDecoder implements ErrorDecoder {
         try {
             InputStream body = response.body().asInputStream();
 
-            ResponseClienteData responseClienteData = objectMapper.readValue(body, ResponseClienteData.class);
+            ResponseImovelClienteData responseImovelClienteData = objectMapper.readValue(body, ResponseImovelClienteData.class);
 
             return new GatewayResourceIntegrationRuntimeException(
-                    responseClienteData.getStatus().getErros().getMsgErro(),
-                    responseClienteData.getStatus().getCodigo(),
+                    responseImovelClienteData.getStatus().getErros().getMsgErro(),
+                    responseImovelClienteData.getStatus().getCodigo(),
                     HttpStatus.valueOf(response.status()),
                     "INTERNAL");
 

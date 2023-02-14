@@ -23,4 +23,9 @@ public final class CamundaProcessVariables {
 
     public static final String RISCO = "nivel";
 
+    public static final String DATA_FIM_CONTRATO_MAIOR_QUE_ATUAL = "dataFimContratoMaiorQueDataAtual";
+    public static final String PARCELAS_EM_ABERTO = "parcelasEmAberto";
+
+    public static final String DECLARACAO_DE_IMOVEL_INVALIDA = "declaracaoDeImovelInvalida";
+    public static final String DECLARACAO_DE_AUTOMOVEL_INVALIDA = "declaracaoDeAutomovelInvalida";
 }

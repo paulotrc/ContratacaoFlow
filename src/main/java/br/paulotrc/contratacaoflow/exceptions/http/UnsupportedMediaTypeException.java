@@ -1,5 +1,6 @@
 package br.paulotrc.contratacaoflow.exceptions.http;
 
+import br.paulotrc.contratacaoflow.exceptions.ResourceException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -7,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class UnsupportedMediaTypeException extends RuntimeException {
+public class UnsupportedMediaTypeException extends ResourceException {
         private static final long serialVersionUID = 1L;
         private String code;
         private String message;

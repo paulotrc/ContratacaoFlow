@@ -1,7 +1,7 @@
 package br.paulotrc.contratacaoflow.datasources.feign;
 
-import br.paulotrc.contratacaoflow.datasources.feign.configuration.cliente.ClienteClientConfiguration;
-import br.paulotrc.contratacaoflow.entities.ResponseClienteData;
+import br.paulotrc.contratacaoflow.datasources.feign.configuration.imovel.ImovelClientConfiguration;
+import br.paulotrc.contratacaoflow.entities.ResponseImovelClienteData;
 import feign.Headers;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Service;
@@ -11,14 +11,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import java.util.List;
 
 @Service
-@FeignClient(name = "cliente",
-        url = "${svc.clientes.url}",
-        configuration = ClienteClientConfiguration.class
+@FeignClient(name = "imovel",
+        url = "${svc.imovel.url}",
+        configuration = ImovelClientConfiguration.class
 )
-public interface ClienteClient {
+public interface ImovelClient {
 
     @GetMapping("/{cpf}")
     @Headers({"Content-Type: application/json"})
-    List<ResponseClienteData> consultarCliente(@PathVariable(name = "cpf") String cpf);
+    List<ResponseImovelClienteData> consultarImovelCliente(@PathVariable(name = "cpf") String cpf);
 
 }

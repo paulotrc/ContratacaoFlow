@@ -67,7 +67,9 @@ logging:
 
 svc:
   clientes:
-    url_cpf: http://localhost:8091/svc-clientes/api/v1/cliente/
+    url: http://localhost:8091/svc-clientes/api/v1/cliente/
+  imovel:
+    url: http://localhost:8093/svc-imovel/api/v1/imovel/
 
 resilience4j:
   circuitbreaker:
@@ -104,5 +106,8 @@ feign:
         connectTimeout: 20000
         readTimeout: 10000
       cliente:
+        connectTimeout: 40000
+        readTimeout: 10000
+      imovel:
         connectTimeout: 40000
         readTimeout: 10000

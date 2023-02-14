@@ -2,9 +2,9 @@ package br.paulotrc.contratacaoflow.datasources.tasks;
 
 import br.paulotrc.contratacaoflow.configs.utils.CamundaProcessVariables;
 import br.paulotrc.contratacaoflow.datasources.MensagemDataSource;
-import br.paulotrc.contratacaoflow.entities.ResponseClienteData;
+import br.paulotrc.contratacaoflow.entities.ResponseImovelClienteData;
 import br.paulotrc.contratacaoflow.exceptions.ExceptionUtil;
-import br.paulotrc.contratacaoflow.repositories.ClienteRepository;
+import br.paulotrc.contratacaoflow.repositories.ImovelRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.camunda.bpm.engine.delegate.BpmnError;
@@ -18,6 +18,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Component
@@ -25,55 +26,77 @@ public class TaskConsultarBemImovel implements JavaDelegate {
 
     private static final Logger log = LoggerFactory.getLogger(TaskConsultarBemImovel.class);
 
-    private ClienteRepository clienteRepository;
+    private ImovelRepository imovelRepository;
 
-    public TaskConsultarBemImovel(ClienteRepository clienteRepository) {
-        this.clienteRepository = clienteRepository;
+    public TaskConsultarBemImovel(ImovelRepository imovelRepository) {
+        this.imovelRepository = imovelRepository;
     }
 
     @Override
     public void execute(DelegateExecution execution) throws JsonProcessingException {
 
         try {
-            log.info("TaskConsultarCliente - Inicio");
+            log.info("TaskConsultarBemImovel - Inicio");
             ObjectMapper mapper = new ObjectMapper();
             String cpf = execution.getVariable(CamundaProcessVariables.CPF).toString();
+            Boolean declaraTerImovel = Boolean.valueOf(execution.getVariable(CamundaProcessVariables.TEM_IMOVEL).toString());
+//            Boolean declaraTerAutomovel = Boolean.valueOf(execution.getVariable(CamundaProcessVariables.TEM_AUTOMOVEL).toString());
 
-            List<ResponseClienteData> responseClienteData = clienteRepository.consultarCliente(cpf);
+            List<ResponseImovelClienteData> responseImovelClienteData = imovelRepository.consultarImovelCliente(cpf);
 
-            execution.setVariable(CamundaProcessVariables.TEM_IMOVEL, responseClienteData.get(0).getTemImovel());
-            execution.setVariable(CamundaProcessVariables.TEM_AUTOMOVEL, responseClienteData.get(0).getTemAutomovel());
-            execution.setVariable(CamundaProcessVariables.RENDA, responseClienteData.get(0).getRenda());
-            log.info("TaskConsultarCliente - Fim");
+            if((declaraTerImovel && responseImovelClienteData.size() > 0)){
+                execution.setVariable(CamundaProcessVariables.DECLARACAO_DE_IMOVEL_INVALIDA, false);
+            }else{
+                execution.setVariable(CamundaProcessVariables.DECLARACAO_DE_IMOVEL_INVALIDA, true);
+            }
+            Boolean existemParcelasEmAberto = imoveisTemParcelaEmAberto(responseImovelClienteData);
+
+            Boolean dataFimContratoEmAberto = imoveisDataFimContratoEmAberto(responseImovelClienteData);
+            execution.setVariable(CamundaProcessVariables.DATA_FIM_CONTRATO_MAIOR_QUE_ATUAL, dataFimContratoEmAberto);
+            execution.setVariable(CamundaProcessVariables.PARCELAS_EM_ABERTO, existemParcelasEmAberto);
+
+            log.info("TaskConsultarBemImovel - Fim");
         } catch (BpmnModelException e) {
 
-            execution.setVariable("ERROR_TECNICO_CLIENTE", TaskConsultarBemImovel.class.getSimpleName() + " - " + e.getMessage());
+            execution.setVariable("ERROR_TECNICO_IMOVEL", TaskConsultarBemImovel.class.getSimpleName() + " - " + e.getMessage());
             log.error(MensagemDataSource.Erro.LOG, e.getMessage(), e.getCause(), e.getStackTrace());
-            throw new BpmnError("ERROR_CLIENTE", "ERROR_CLIENTE", e.getCause());
+            throw new BpmnError("ERROR_IMOVEL", "ERROR_IMOVEL", e.getCause());
 
         } catch (HttpClientErrorException e) {
             log.error(MensagemDataSource.Erro.LOG, e.getMessage(), e.getCause(), e.getStackTrace());
             final String jsonException = ExceptionUtil.generateJsonFromException(e.getStatusCode().toString(),
                     MensagemDataSource.MessageDataSource.ERRO_CONSULTA_CLIENTE, e.getResponseBodyAsString(),
                     MensagemDataSource.Origem.SERVICE_CLIENTE);
-            execution.setVariable("ERROR_TECNICO_CLIENTE", jsonException);
-            throw new BpmnError("ERROR_CLIENTE", "ERROR_CLIENTE", e.getCause());
+            execution.setVariable("ERROR_TECNICO_IMOVEL", jsonException);
+            throw new BpmnError("ERROR_IMOVEL", "ERROR_IMOVEL", e.getCause());
 
         } catch (HttpServerErrorException e) {
             log.error(MensagemDataSource.Erro.LOG, e.getMessage(), e.getCause(), e.getStackTrace());
             final String jsonException = ExceptionUtil.generateJsonFromException(e.getStatusCode().toString(),
                     MensagemDataSource.MessageDataSource.ERRO_CONSULTA_CLIENTE, e.getResponseBodyAsString(),
                     MensagemDataSource.Origem.SERVICE_CLIENTE);
-            execution.setVariable("ERROR_TECNICO_CLIENTE", jsonException);
-            throw new BpmnError("ERROR_CLIENTE", "ERROR_CLIENTE", e.getCause());
+            execution.setVariable("ERROR_TECNICO_IMOVEL", jsonException);
+            throw new BpmnError("ERROR_IMOVEL", "ERROR_IMOVEL", e.getCause());
 
         } catch (Exception e) {
             final String jsonException = ExceptionUtil.generateJsonFromException(HttpStatus.INTERNAL_SERVER_ERROR.toString(),
                     MensagemDataSource.MessageDataSource.ERRO_CONSULTA_CLIENTE, e.getMessage(),
                     MensagemDataSource.Origem.SERVICE_CLIENTE);
-            execution.setVariable("ERROR_TECNICO_CLIENTE", jsonException);
+            execution.setVariable("ERROR_TECNICO_IMOVEL", jsonException);
             log.error(MensagemDataSource.Erro.LOG, e.getMessage(), e.getCause(), e.getStackTrace());
-            throw new BpmnError("ERROR_CLIENTE", "ERROR_CLIENTE", e.getCause());
+            throw new BpmnError("ERROR_IMOVEL", "ERROR_IMOVEL", e.getCause());
         }
+    }
+
+    private Boolean imoveisTemParcelaEmAberto(List<ResponseImovelClienteData> responseImovelClienteData) {
+        return responseImovelClienteData.stream().allMatch(n -> {
+            return (n.getParcelasPagas() < n.getParcelasTotais());
+        });
+    }
+
+    private Boolean imoveisDataFimContratoEmAberto(List<ResponseImovelClienteData> responseImovelClienteData) {
+        return responseImovelClienteData.stream().allMatch(n -> {
+            return (LocalDate.now().isBefore(n.getDataFimContrato()));
+        });
     }
 }
