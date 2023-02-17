@@ -3,7 +3,9 @@ package br.paulotrc.contratacaoflow.datasources.tasks;
 import br.paulotrc.contratacaoflow.configs.utils.CamundaProcessVariables;
 import br.paulotrc.contratacaoflow.datasources.MensagemDataSource;
 import br.paulotrc.contratacaoflow.entities.ResponseClienteData;
+import br.paulotrc.contratacaoflow.exceptions.BussinessException;
 import br.paulotrc.contratacaoflow.exceptions.ExceptionUtil;
+import br.paulotrc.contratacaoflow.exceptions.ResourceException;
 import br.paulotrc.contratacaoflow.repositories.ClienteRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -42,13 +44,25 @@ public class TaskConsultarCliente implements JavaDelegate {
 
             final List<ResponseClienteData> responseClienteData = clienteRepository.consultarCliente(cpf);
 
+            if(0 == responseClienteData.size()){
+                throw new BussinessException();
+            }
+
             execution.setVariable(CamundaProcessVariables.NOME, responseClienteData.get(0).getNome());
             execution.setVariable(CamundaProcessVariables.TEM_IMOVEL, responseClienteData.get(0).getTemImovel());
             execution.setVariable(CamundaProcessVariables.TEM_AUTOMOVEL, responseClienteData.get(0).getTemAutomovel());
             execution.setVariable(CamundaProcessVariables.RENDA, responseClienteData.get(0).getRenda());
             log.info("TaskConsultarCliente - Fim");
-        } catch (BpmnModelException e) {
 
+        } catch (BussinessException e) {
+            log.error(MensagemDataSource.Erro.LOG, "Cliente não encontrado", "Cliente não encontrado", "");
+            final String jsonException = ExceptionUtil.generateJsonFromException(HttpStatus.BAD_REQUEST.toString(),
+                    MensagemDataSource.MessageDataSource.ERRO_CONSULTA_CLIENTE, "Cliente não encontrado",
+                    MensagemDataSource.Origem.SERVICE_CLIENTE);
+            execution.setVariable("ERROR_TECNICO_CLIENTE", jsonException);
+            throw new BpmnError("ERROR_CLIENTE", "ERROR_CLIENTE", e.getCause());
+
+        } catch (BpmnModelException e) {
             execution.setVariable("ERROR_TECNICO_CLIENTE", TaskConsultarCliente.class.getSimpleName() + " - " + e.getMessage());
             log.error(MensagemDataSource.Erro.LOG, e.getMessage(), e.getCause(), e.getStackTrace());
             throw new BpmnError("ERROR_CLIENTE", "ERROR_CLIENTE", e.getCause());
