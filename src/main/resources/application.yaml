@@ -70,6 +70,8 @@ svc:
     url: http://localhost:8091/svc-clientes/api/v1/cliente/
   imovel:
     url: http://localhost:8093/svc-imovel/api/v1/imovel/
+  automovel:
+    url: http://localhost:8094/svc-automovel/api/v1/automovel/
 
 resilience4j:
   circuitbreaker:

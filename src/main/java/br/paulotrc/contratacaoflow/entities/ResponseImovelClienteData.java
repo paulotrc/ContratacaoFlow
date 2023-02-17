@@ -1,7 +1,7 @@
 package br.paulotrc.contratacaoflow.entities;
 
-import br.paulotrc.contratacaoflow.entities.enumerados.TipoImovel;
-import br.paulotrc.contratacaoflow.entities.enumerados.TipoRestricaoImovel;
+import br.paulotrc.contratacaoflow.entities.enumerados.imovel.TipoImovel;
+import br.paulotrc.contratacaoflow.entities.enumerados.imovel.TipoRestricaoImovel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,7 +14,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class ResponseImovelClienteData {
 
-        private UUID id = UUID.randomUUID();
+        private UUID id;
         private String cpf; //Documento de identificação do dono do imóvel
         private String cep;
         private String estado;
@@ -31,7 +31,6 @@ public class ResponseImovelClienteData {
         private Integer parcelasPagas;
         private TipoRestricaoImovel restricaoImovel;
         private TipoImovel tipoImovel;
-
         private Status status;
 
 }

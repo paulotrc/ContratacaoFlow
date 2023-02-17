@@ -37,21 +37,20 @@ public class TaskConsultarBemImovel implements JavaDelegate {
 
         try {
             log.info("TaskConsultarBemImovel - Inicio");
-            ObjectMapper mapper = new ObjectMapper();
-            String cpf = execution.getVariable(CamundaProcessVariables.CPF).toString();
-            Boolean declaraTerImovel = Boolean.valueOf(execution.getVariable(CamundaProcessVariables.TEM_IMOVEL).toString());
-//            Boolean declaraTerAutomovel = Boolean.valueOf(execution.getVariable(CamundaProcessVariables.TEM_AUTOMOVEL).toString());
+            final String cpf = execution.getVariable(CamundaProcessVariables.CPF).toString();
+            final Boolean declaraTerImovel = Boolean.valueOf(execution.getVariable(CamundaProcessVariables.TEM_IMOVEL).toString());
 
-            List<ResponseImovelClienteData> responseImovelClienteData = imovelRepository.consultarImovelCliente(cpf);
+            final List<ResponseImovelClienteData> responseImovelClienteData = imovelRepository.consultarImovelCliente(cpf);
 
             if((declaraTerImovel && responseImovelClienteData.size() > 0)){
                 execution.setVariable(CamundaProcessVariables.DECLARACAO_DE_IMOVEL_INVALIDA, false);
             }else{
                 execution.setVariable(CamundaProcessVariables.DECLARACAO_DE_IMOVEL_INVALIDA, true);
+                execution.setVariable(CamundaProcessVariables.SUSPEITA_DE_FRAUDE, true);
             }
-            Boolean existemParcelasEmAberto = imoveisTemParcelaEmAberto(responseImovelClienteData);
+            final Boolean existemParcelasEmAberto = imoveisTemParcelaEmAberto(responseImovelClienteData);
 
-            Boolean dataFimContratoEmAberto = imoveisDataFimContratoEmAberto(responseImovelClienteData);
+            final Boolean dataFimContratoEmAberto = imoveisDataFimContratoEmAberto(responseImovelClienteData);
             execution.setVariable(CamundaProcessVariables.DATA_FIM_CONTRATO_MAIOR_QUE_ATUAL, dataFimContratoEmAberto);
             execution.setVariable(CamundaProcessVariables.PARCELAS_EM_ABERTO, existemParcelasEmAberto);
 
@@ -65,23 +64,23 @@ public class TaskConsultarBemImovel implements JavaDelegate {
         } catch (HttpClientErrorException e) {
             log.error(MensagemDataSource.Erro.LOG, e.getMessage(), e.getCause(), e.getStackTrace());
             final String jsonException = ExceptionUtil.generateJsonFromException(e.getStatusCode().toString(),
-                    MensagemDataSource.MessageDataSource.ERRO_CONSULTA_CLIENTE, e.getResponseBodyAsString(),
-                    MensagemDataSource.Origem.SERVICE_CLIENTE);
+                    MensagemDataSource.MessageDataSource.ERRO_CONSULTA_IMOVEL, e.getResponseBodyAsString(),
+                    MensagemDataSource.Origem.SERVICE_IMOVEL);
             execution.setVariable("ERROR_TECNICO_IMOVEL", jsonException);
             throw new BpmnError("ERROR_IMOVEL", "ERROR_IMOVEL", e.getCause());
 
         } catch (HttpServerErrorException e) {
             log.error(MensagemDataSource.Erro.LOG, e.getMessage(), e.getCause(), e.getStackTrace());
             final String jsonException = ExceptionUtil.generateJsonFromException(e.getStatusCode().toString(),
-                    MensagemDataSource.MessageDataSource.ERRO_CONSULTA_CLIENTE, e.getResponseBodyAsString(),
-                    MensagemDataSource.Origem.SERVICE_CLIENTE);
+                    MensagemDataSource.MessageDataSource.ERRO_CONSULTA_IMOVEL, e.getResponseBodyAsString(),
+                    MensagemDataSource.Origem.SERVICE_IMOVEL);
             execution.setVariable("ERROR_TECNICO_IMOVEL", jsonException);
             throw new BpmnError("ERROR_IMOVEL", "ERROR_IMOVEL", e.getCause());
 
         } catch (Exception e) {
             final String jsonException = ExceptionUtil.generateJsonFromException(HttpStatus.INTERNAL_SERVER_ERROR.toString(),
-                    MensagemDataSource.MessageDataSource.ERRO_CONSULTA_CLIENTE, e.getMessage(),
-                    MensagemDataSource.Origem.SERVICE_CLIENTE);
+                    MensagemDataSource.MessageDataSource.ERRO_CONSULTA_IMOVEL, e.getMessage(),
+                    MensagemDataSource.Origem.SERVICE_IMOVEL);
             execution.setVariable("ERROR_TECNICO_IMOVEL", jsonException);
             log.error(MensagemDataSource.Erro.LOG, e.getMessage(), e.getCause(), e.getStackTrace());
             throw new BpmnError("ERROR_IMOVEL", "ERROR_IMOVEL", e.getCause());

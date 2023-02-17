@@ -3,8 +3,6 @@ package br.paulotrc.contratacaoflow.datasources;
 import br.paulotrc.contratacaoflow.datasources.feign.ClienteClient;
 import br.paulotrc.contratacaoflow.entities.ResponseClienteData;
 import br.paulotrc.contratacaoflow.repositories.ClienteRepository;
-import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
-import io.github.resilience4j.retry.annotation.Retry;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -16,7 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 public class ClienteDataSource implements ClienteRepository {
 
-    private static final String MESSAGE_JSON_ERROR = "Falha ao recuperar os dados de Cliente!";
+    private static final String MESSAGE_ERROR = "Falha ao recuperar os dados de Cliente!";
 
     private ClienteClient clienteClient;
 
@@ -27,7 +25,7 @@ public class ClienteDataSource implements ClienteRepository {
         try {
             response = clienteClient.consultarCliente(cpf);
         } catch (RuntimeException ex) {
-            log.error(MESSAGE_JSON_ERROR, ex.getCause());
+            log.error(MESSAGE_ERROR, ex.getCause());
             throw ex;
         }
         return response;

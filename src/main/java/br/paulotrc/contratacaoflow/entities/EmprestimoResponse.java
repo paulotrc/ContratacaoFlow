@@ -14,6 +14,7 @@ public class EmprestimoResponse {
     private String processInstanceId;
     private String bussinessKey;
     private String cpf;
+    private String nome;
     private String risco;
     private Double percentualLiberado;
     private BigDecimal valorLiberadoEmprestimo;

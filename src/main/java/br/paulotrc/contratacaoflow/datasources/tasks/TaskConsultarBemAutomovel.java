@@ -2,9 +2,10 @@ package br.paulotrc.contratacaoflow.datasources.tasks;
 
 import br.paulotrc.contratacaoflow.configs.utils.CamundaProcessVariables;
 import br.paulotrc.contratacaoflow.datasources.MensagemDataSource;
-import br.paulotrc.contratacaoflow.entities.ResponseClienteData;
+import br.paulotrc.contratacaoflow.entities.ResponseAutomovelClienteData;
+import br.paulotrc.contratacaoflow.entities.ResponseImovelClienteData;
 import br.paulotrc.contratacaoflow.exceptions.ExceptionUtil;
-import br.paulotrc.contratacaoflow.repositories.ClienteRepository;
+import br.paulotrc.contratacaoflow.repositories.AutomovelRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.camunda.bpm.engine.delegate.BpmnError;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Component
@@ -25,55 +27,77 @@ public class TaskConsultarBemAutomovel implements JavaDelegate {
 
     private static final Logger log = LoggerFactory.getLogger(TaskConsultarBemAutomovel.class);
 
-    private ClienteRepository clienteRepository;
+    private AutomovelRepository automovelRepository;
 
-    public TaskConsultarBemAutomovel(ClienteRepository clienteRepository) {
-        this.clienteRepository = clienteRepository;
+    public TaskConsultarBemAutomovel(AutomovelRepository automovelRepository) {
+        this.automovelRepository = automovelRepository;
     }
 
     @Override
     public void execute(DelegateExecution execution) throws JsonProcessingException {
 
         try {
-            log.info("TaskConsultarCliente - Inicio");
-            ObjectMapper mapper = new ObjectMapper();
-            String cpf = execution.getVariable(CamundaProcessVariables.CPF).toString();
+            log.info("TaskConsultarBemAutomovel - Inicio");
+            final String cpf = execution.getVariable(CamundaProcessVariables.CPF).toString();
+            final Boolean declaraTerAutomovel = Boolean.valueOf(execution.getVariable(CamundaProcessVariables.TEM_AUTOMOVEL).toString());
 
-            List<ResponseClienteData> responseClienteData = clienteRepository.consultarCliente(cpf);
+            final List<ResponseAutomovelClienteData> responseAutomovelClienteData = automovelRepository.consultarAutomovelClientePeloCpf(cpf);
 
-            execution.setVariable(CamundaProcessVariables.TEM_IMOVEL, responseClienteData.get(0).getTemImovel());
-            execution.setVariable(CamundaProcessVariables.TEM_AUTOMOVEL, responseClienteData.get(0).getTemAutomovel());
-            execution.setVariable(CamundaProcessVariables.RENDA, responseClienteData.get(0).getRenda());
-            log.info("TaskConsultarCliente - Fim");
+            if((declaraTerAutomovel && responseAutomovelClienteData.size() > 0)){
+                execution.setVariable(CamundaProcessVariables.DECLARACAO_DE_AUTOMOVEL_INVALIDA, false);
+            }else{
+                execution.setVariable(CamundaProcessVariables.DECLARACAO_DE_AUTOMOVEL_INVALIDA, true);
+                execution.setVariable(CamundaProcessVariables.SUSPEITA_DE_FRAUDE, true);
+            }
+            final Boolean existemParcelasEmAberto = automoveisTemParcelaFinanciamentoEmAberto(responseAutomovelClienteData);
+
+            final Boolean dataFimContratoEmAberto = automoveisDataFimContratoFinanciamentoEmAberto(responseAutomovelClienteData);
+            execution.setVariable(CamundaProcessVariables.DATA_FIM_CONTRATO_MAIOR_QUE_ATUAL, dataFimContratoEmAberto);
+            execution.setVariable(CamundaProcessVariables.PARCELAS_EM_ABERTO, existemParcelasEmAberto);
+
+            log.info("TaskConsultarBemAutomovel - Fim");
+
         } catch (BpmnModelException e) {
 
-            execution.setVariable("ERROR_TECNICO_CLIENTE", TaskConsultarBemAutomovel.class.getSimpleName() + " - " + e.getMessage());
+            execution.setVariable("ERROR_TECNICO_AUTOMOVEL", TaskConsultarBemAutomovel.class.getSimpleName() + " - " + e.getMessage());
             log.error(MensagemDataSource.Erro.LOG, e.getMessage(), e.getCause(), e.getStackTrace());
-            throw new BpmnError("ERROR_CLIENTE", "ERROR_CLIENTE", e.getCause());
+            throw new BpmnError("ERROR_AUTOMOVEL", "ERROR_AUTOMOVEL", e.getCause());
 
         } catch (HttpClientErrorException e) {
             log.error(MensagemDataSource.Erro.LOG, e.getMessage(), e.getCause(), e.getStackTrace());
             final String jsonException = ExceptionUtil.generateJsonFromException(e.getStatusCode().toString(),
-                    MensagemDataSource.MessageDataSource.ERRO_CONSULTA_CLIENTE, e.getResponseBodyAsString(),
-                    MensagemDataSource.Origem.SERVICE_CLIENTE);
-            execution.setVariable("ERROR_TECNICO_CLIENTE", jsonException);
-            throw new BpmnError("ERROR_CLIENTE", "ERROR_CLIENTE", e.getCause());
+                    MensagemDataSource.MessageDataSource.ERRO_CONSULTA_AUTOMOVEL, e.getResponseBodyAsString(),
+                    MensagemDataSource.Origem.SERVICE_AUTOMOVEL);
+            execution.setVariable("ERROR_TECNICO_AUTOMOVEL", jsonException);
+            throw new BpmnError("ERROR_AUTOMOVEL", "ERROR_AUTOMOVEL", e.getCause());
 
         } catch (HttpServerErrorException e) {
             log.error(MensagemDataSource.Erro.LOG, e.getMessage(), e.getCause(), e.getStackTrace());
             final String jsonException = ExceptionUtil.generateJsonFromException(e.getStatusCode().toString(),
-                    MensagemDataSource.MessageDataSource.ERRO_CONSULTA_CLIENTE, e.getResponseBodyAsString(),
-                    MensagemDataSource.Origem.SERVICE_CLIENTE);
-            execution.setVariable("ERROR_TECNICO_CLIENTE", jsonException);
-            throw new BpmnError("ERROR_CLIENTE", "ERROR_CLIENTE", e.getCause());
+                    MensagemDataSource.MessageDataSource.ERRO_CONSULTA_AUTOMOVEL, e.getResponseBodyAsString(),
+                    MensagemDataSource.Origem.SERVICE_AUTOMOVEL);
+            execution.setVariable("ERROR_TECNICO_AUTOMOVEL", jsonException);
+            throw new BpmnError("ERROR_AUTOMOVEL", "ERROR_AUTOMOVEL", e.getCause());
 
         } catch (Exception e) {
             final String jsonException = ExceptionUtil.generateJsonFromException(HttpStatus.INTERNAL_SERVER_ERROR.toString(),
-                    MensagemDataSource.MessageDataSource.ERRO_CONSULTA_CLIENTE, e.getMessage(),
-                    MensagemDataSource.Origem.SERVICE_CLIENTE);
-            execution.setVariable("ERROR_TECNICO_CLIENTE", jsonException);
+                    MensagemDataSource.MessageDataSource.ERRO_CONSULTA_AUTOMOVEL, e.getMessage(),
+                    MensagemDataSource.Origem.SERVICE_AUTOMOVEL);
+            execution.setVariable("ERROR_TECNICO_AUTOMOVEL", jsonException);
             log.error(MensagemDataSource.Erro.LOG, e.getMessage(), e.getCause(), e.getStackTrace());
-            throw new BpmnError("ERROR_CLIENTE", "ERROR_CLIENTE", e.getCause());
+            throw new BpmnError("ERROR_AUTOMOVEL", "ERROR_AUTOMOVEL", e.getCause());
         }
+    }
+
+    private Boolean automoveisTemParcelaFinanciamentoEmAberto(List<ResponseAutomovelClienteData> responseAutomovelClienteData) {
+        return responseAutomovelClienteData.stream().allMatch(n -> {
+            return (n.getParcelasPagas() < n.getParcelasTotais());
+        });
+    }
+
+    private Boolean automoveisDataFimContratoFinanciamentoEmAberto(List<ResponseAutomovelClienteData> responseAutomovelClienteData) {
+        return responseAutomovelClienteData.stream().allMatch(n -> {
+            return (LocalDate.now().isBefore(n.getDataFimContrato()));
+        });
     }
 }

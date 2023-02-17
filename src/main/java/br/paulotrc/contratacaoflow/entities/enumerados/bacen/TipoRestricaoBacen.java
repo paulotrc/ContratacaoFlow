@@ -1,4 +1,4 @@
-package br.paulotrc.contratacaoflow.entities.enumerados;
+package br.paulotrc.contratacaoflow.entities.enumerados.bacen;
 
 public enum TipoRestricaoBacen {
     EXCLUSAO_CLIENTE("Decisão Judicial de Exclusão de Cliente", "Legal"),

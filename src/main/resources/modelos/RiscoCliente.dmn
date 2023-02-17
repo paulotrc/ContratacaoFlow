@@ -164,6 +164,9 @@
     <informationRequirement id="InformationRequirement_1u53jx0">
       <requiredInput href="#InputData_0wagpww" />
     </informationRequirement>
+    <informationRequirement id="InformationRequirement_060fcxh">
+      <requiredInput href="#InputData_1abg4rm" />
+    </informationRequirement>
     <decisionTable id="DecisionTable_1w9u2iz">
       <input id="InputClause_1p3x7vp" label="possui garantia de bem imóvel" biodi:width="255">
         <inputExpression id="LiteralExpression_1k1ejc3" typeRef="boolean">
@@ -180,6 +183,11 @@
           <text>peso</text>
         </inputExpression>
       </input>
+      <input id="InputClause_0ab5ide" label="Suspeita de Fraude" biodi:width="192">
+        <inputExpression id="LiteralExpression_1seq8cx" typeRef="boolean" expressionLanguage="feel">
+          <text>suspeitaDeFraude</text>
+        </inputExpression>
+      </input>
       <output id="OutputClause_0p9st68" label="Nivel de Risco do Cliente" name="nivel" typeRef="string" biodi:width="214" />
       <output id="OutputClause_0g9ieke" label="% Max Liberado" name="percentualMax" typeRef="double" biodi:width="150" />
       <rule id="DecisionRule_0aict1y">
@@ -192,6 +200,9 @@
         </inputEntry>
         <inputEntry id="UnaryTests_1gr83ai">
           <text>0</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1ac62os">
+          <text>false</text>
         </inputEntry>
         <outputEntry id="LiteralExpression_1pesw1s">
           <text>"baixo"</text>
@@ -211,6 +222,9 @@
         <inputEntry id="UnaryTests_1iisn8t">
           <text>0</text>
         </inputEntry>
+        <inputEntry id="UnaryTests_1gb3ssi">
+          <text>false</text>
+        </inputEntry>
         <outputEntry id="LiteralExpression_1epga30">
           <text>"baixo"</text>
         </outputEntry>
@@ -228,6 +242,9 @@
         </inputEntry>
         <inputEntry id="UnaryTests_0vvgjdm">
           <text>0</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1gkihgq">
+          <text>false</text>
         </inputEntry>
         <outputEntry id="LiteralExpression_1unms70">
           <text>"baixo"</text>
@@ -247,6 +264,9 @@
         <inputEntry id="UnaryTests_1k7ekbn">
           <text>0</text>
         </inputEntry>
+        <inputEntry id="UnaryTests_080ig69">
+          <text>false</text>
+        </inputEntry>
         <outputEntry id="LiteralExpression_1o1mdpg">
           <text>"medio"</text>
         </outputEntry>
@@ -264,6 +284,9 @@
         </inputEntry>
         <inputEntry id="UnaryTests_14j17h6">
           <text>1</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1mh0t1h">
+          <text>false</text>
         </inputEntry>
         <outputEntry id="LiteralExpression_1e60vas">
           <text>"baixo"</text>
@@ -283,6 +306,9 @@
         <inputEntry id="UnaryTests_03hfij0">
           <text>1</text>
         </inputEntry>
+        <inputEntry id="UnaryTests_08cyjwy">
+          <text>false</text>
+        </inputEntry>
         <outputEntry id="LiteralExpression_0vqdjr6">
           <text>"baixo"</text>
         </outputEntry>
@@ -300,6 +326,9 @@
         </inputEntry>
         <inputEntry id="UnaryTests_1gtdrfr">
           <text>1</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0h4q13q">
+          <text>false</text>
         </inputEntry>
         <outputEntry id="LiteralExpression_1iqusl6">
           <text>"baixo"</text>
@@ -319,6 +348,9 @@
         <inputEntry id="UnaryTests_0oohv01">
           <text>1</text>
         </inputEntry>
+        <inputEntry id="UnaryTests_0tzmub1">
+          <text>false</text>
+        </inputEntry>
         <outputEntry id="LiteralExpression_0j7dnnv">
           <text>"medio"</text>
         </outputEntry>
@@ -336,6 +368,9 @@
         </inputEntry>
         <inputEntry id="UnaryTests_12e1gi9">
           <text>2</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_00dntif">
+          <text>false</text>
         </inputEntry>
         <outputEntry id="LiteralExpression_0yp3ksq">
           <text>"medio"</text>
@@ -355,6 +390,9 @@
         <inputEntry id="UnaryTests_1s8oxhj">
           <text>2</text>
         </inputEntry>
+        <inputEntry id="UnaryTests_0di9gop">
+          <text>false</text>
+        </inputEntry>
         <outputEntry id="LiteralExpression_05o92wa">
           <text>"alto"</text>
         </outputEntry>
@@ -372,6 +410,9 @@
         </inputEntry>
         <inputEntry id="UnaryTests_1ei95vs">
           <text>2</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0q11xfr">
+          <text>false</text>
         </inputEntry>
         <outputEntry id="LiteralExpression_11h37n7">
           <text>"alto"</text>
@@ -391,6 +432,9 @@
         <inputEntry id="UnaryTests_12chrx1">
           <text>2</text>
         </inputEntry>
+        <inputEntry id="UnaryTests_05vagct">
+          <text>false</text>
+        </inputEntry>
         <outputEntry id="LiteralExpression_03a5jt0">
           <text>"alto"</text>
         </outputEntry>
@@ -398,8 +442,30 @@
           <text>5</text>
         </outputEntry>
       </rule>
+      <rule id="DecisionRule_0q5qge7">
+        <description>Define nível de risco "Alto" com valor de empréstimo máximo de 2% de sua renda por suspeita de fraude</description>
+        <inputEntry id="UnaryTests_04unsxn">
+          <text>true,false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_09zbq2a">
+          <text>true,false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0je1l0n">
+          <text>[0..2]</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1qy83b7">
+          <text>true</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_01i8i2g">
+          <text>"alto"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1197c21">
+          <text>2</text>
+        </outputEntry>
+      </rule>
     </decisionTable>
   </decision>
+  <inputData id="InputData_1abg4rm" name="suspeitaDeFraude" />
   <dmndi:DMNDI>
     <dmndi:DMNDiagram>
       <dmndi:DMNShape dmnElementRef="RiscoRestricoes">
@@ -452,6 +518,14 @@
         <di:waypoint x="180" y="152" />
         <di:waypoint x="630" y="240" />
         <di:waypoint x="630" y="260" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_1fzvc6l" dmnElementRef="InputData_1abg4rm">
+        <dc:Bounds height="45" width="125" x="118" y="258" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_188wqul" dmnElementRef="InformationRequirement_060fcxh">
+        <di:waypoint x="243" y="281" />
+        <di:waypoint x="490" y="300" />
+        <di:waypoint x="510" y="300" />
       </dmndi:DMNEdge>
     </dmndi:DMNDiagram>
   </dmndi:DMNDI>

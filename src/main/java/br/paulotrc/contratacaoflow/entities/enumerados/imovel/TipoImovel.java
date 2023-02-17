@@ -1,4 +1,4 @@
-package br.paulotrc.contratacaoflow.entities.enumerados;
+package br.paulotrc.contratacaoflow.entities.enumerados.imovel;
 
 public enum TipoImovel {
 

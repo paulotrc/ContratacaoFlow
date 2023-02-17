@@ -38,11 +38,11 @@ public class TaskConsultarCliente implements JavaDelegate {
 
         try {
             log.info("TaskConsultarCliente - Inicio");
-            ObjectMapper mapper = new ObjectMapper();
-            String cpf = execution.getVariable(CamundaProcessVariables.CPF).toString();
+            final String cpf = execution.getVariable(CamundaProcessVariables.CPF).toString();
 
-            List<ResponseClienteData> responseClienteData = clienteRepository.consultarCliente(cpf);
+            final List<ResponseClienteData> responseClienteData = clienteRepository.consultarCliente(cpf);
 
+            execution.setVariable(CamundaProcessVariables.NOME, responseClienteData.get(0).getNome());
             execution.setVariable(CamundaProcessVariables.TEM_IMOVEL, responseClienteData.get(0).getTemImovel());
             execution.setVariable(CamundaProcessVariables.TEM_AUTOMOVEL, responseClienteData.get(0).getTemAutomovel());
             execution.setVariable(CamundaProcessVariables.RENDA, responseClienteData.get(0).getRenda());

@@ -67,19 +67,19 @@
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="SubfluxoCadastrarRiscoCliente">
-      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1" bioc:stroke="#0d4372" bioc:fill="#bbdefb" color:background-color="#bbdefb" color:border-color="#0d4372">
         <dc:Bounds x="179" y="232" width="36" height="36" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="158" y="275" width="79" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Gateway_0w19m80_di" bpmnElement="Gateway_0w19m80" isMarkerVisible="true">
+      <bpmndi:BPMNShape id="Gateway_0w19m80_di" bpmnElement="Gateway_0w19m80" isMarkerVisible="true" bioc:stroke="#5b176d" bioc:fill="#e1bee7" color:background-color="#e1bee7" color:border-color="#5b176d">
         <dc:Bounds x="295" y="225" width="50" height="50" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Gateway_0gv00x4_di" bpmnElement="Gateway_0gv00x4" isMarkerVisible="true">
+      <bpmndi:BPMNShape id="Gateway_0gv00x4_di" bpmnElement="Gateway_0gv00x4" isMarkerVisible="true" bioc:stroke="#5b176d" bioc:fill="#e1bee7" color:background-color="#e1bee7" color:border-color="#5b176d">
         <dc:Bounds x="635" y="225" width="50" height="50" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_156fxt1_di" bpmnElement="Event_156fxt1">
+      <bpmndi:BPMNShape id="Event_156fxt1_di" bpmnElement="Event_156fxt1" bioc:stroke="#6b3c00" bioc:fill="#ffe0b2" color:background-color="#ffe0b2" color:border-color="#6b3c00">
         <dc:Bounds x="752" y="232" width="36" height="36" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="735" y="275" width="71" height="27" />

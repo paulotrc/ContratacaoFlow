@@ -1,6 +1,6 @@
-package br.paulotrc.contratacaoflow.entities.enumerados;
+package br.paulotrc.contratacaoflow.entities.enumerados.serasa;
 
-public enum TipoRestricaoImovel {
+public enum TipoRestricaoSerasa {
     DIVIDA("Dívida"),
     SITUACAO_CADASTRAL("Situação Cadastral"),
     CPF_CANCELADO("CPF Cancelado"),
@@ -9,7 +9,7 @@ public enum TipoRestricaoImovel {
 
     private String descricao;
 
-    TipoRestricaoImovel(String descricao) {
+    TipoRestricaoSerasa(String descricao) {
         this.descricao = descricao;
     }
 }

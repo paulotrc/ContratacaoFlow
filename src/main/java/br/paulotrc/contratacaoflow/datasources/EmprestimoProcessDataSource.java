@@ -38,7 +38,6 @@ public class EmprestimoProcessDataSource implements EmprestimoProcessRepository 
         try{
             variables.putValue(BUSSINESS_KEY, bussinessKey.toString());
             variables.putValue(CPF,  Variables.objectValue(emprestimoRequest.getCpfVar()));
-//            variables.putValue(CPF,  Variables.objectValue());
 
             instance = EngineUtil.getInstance().getRuntimeEngine().createProcessInstanceByKey(EMPRESTIMO_PROCESS_NAME)
                     .businessKey(bussinessKey.toString()).setVariables(variables)
@@ -58,6 +57,7 @@ public class EmprestimoProcessDataSource implements EmprestimoProcessRepository 
                 instance.getProcessInstanceId(),
                 instance.getVariables().get(BUSSINESS_KEY).toString(),
                 instance.getVariables().get(CPF).toString(),
+                instance.getVariables().get(NOME).toString(),
                 ((Double)((Map<String, Object>)instance.getVariables().get(RESULT_CALCULO_RISCO)).get(PERCENTUAL_LIBERADO)),
                 ((String)((Map<String, Object>)instance.getVariables().get(RESULT_CALCULO_RISCO)).get(RISCO)),
                 BigDecimal.valueOf(Double.valueOf(instance.getVariables().get(RENDA).toString())));
@@ -83,6 +83,7 @@ public class EmprestimoProcessDataSource implements EmprestimoProcessRepository 
             String processInstanceId,
             String bussinessKey,
             String cpf,
+            String nome,
             Double percentualLiberado,
             String risco,
             BigDecimal renda)
@@ -90,6 +91,7 @@ public class EmprestimoProcessDataSource implements EmprestimoProcessRepository 
         final EmprestimoResponse responseDto = EmprestimoResponse
                 .builder()
                 .cpf(cpf)
+                .nome(nome)
                 .processInstanceId(processInstanceId)
                 .bussinessKey(bussinessKey)
                 .percentualLiberado(percentualLiberado)

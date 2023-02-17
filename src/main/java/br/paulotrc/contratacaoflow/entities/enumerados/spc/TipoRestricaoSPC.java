@@ -1,4 +1,4 @@
-package br.paulotrc.contratacaoflow.entities.enumerados;
+package br.paulotrc.contratacaoflow.entities.enumerados.spc;
 
 public enum TipoRestricaoSPC {
     DIVIDA("Dívida"),

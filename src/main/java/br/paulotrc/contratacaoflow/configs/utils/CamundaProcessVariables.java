@@ -9,6 +9,7 @@ public final class CamundaProcessVariables {
     public static final String EMPRESTIMO_PROCESS_NAME = "OfertarEmprestimoFlowProcess";
     public static final String BUSSINESS_KEY = "bussinessKey";
     public static final String CPF = "cpf";
+    public static final String NOME = "nome";
     public static final String STATUS = "status";
 
     public static final String TEM_IMOVEL = "temImovel";
@@ -28,4 +29,6 @@ public final class CamundaProcessVariables {
 
     public static final String DECLARACAO_DE_IMOVEL_INVALIDA = "declaracaoDeImovelInvalida";
     public static final String DECLARACAO_DE_AUTOMOVEL_INVALIDA = "declaracaoDeAutomovelInvalida";
+
+    public static final String SUSPEITA_DE_FRAUDE = "suspeitaDeFraude";
 }

@@ -36,7 +36,7 @@
       <bpmn:extensionElements>
         <camunda:inputOutput>
           <camunda:outputParameter name="serasa">
-            <camunda:script scriptFormat="javascript">Boolean(true);</camunda:script>
+            <camunda:script scriptFormat="javascript">Boolean(false);</camunda:script>
           </camunda:outputParameter>
         </camunda:inputOutput>
       </bpmn:extensionElements>
@@ -63,13 +63,13 @@
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="SubfluxoConsultaRestricoes">
-      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1" bioc:stroke="#0d4372" bioc:fill="#bbdefb" color:background-color="#bbdefb" color:border-color="#0d4372">
         <dc:Bounds x="192" y="242" width="36" height="36" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="168" y="285" width="85" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Gateway_1peobms_di" bpmnElement="Gateway_0uwz3kq">
+      <bpmndi:BPMNShape id="Gateway_1peobms_di" bpmnElement="Gateway_0uwz3kq" bioc:stroke="#5b176d" bioc:fill="#e1bee7" color:background-color="#e1bee7" color:border-color="#5b176d">
         <dc:Bounds x="365" y="235" width="50" height="50" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0hs4ouy_di" bpmnElement="Activity_0hs4ouy" bioc:stroke="#831311" bioc:fill="#ffcdd2" color:background-color="#ffcdd2" color:border-color="#831311">
@@ -84,13 +84,13 @@
         <dc:Bounds x="480" y="60" width="100" height="80" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_1whsh1c_di" bpmnElement="Event_1whsh1c">
+      <bpmndi:BPMNShape id="Event_1whsh1c_di" bpmnElement="Event_1whsh1c" bioc:stroke="#6b3c00" bioc:fill="#ffe0b2" color:background-color="#ffe0b2" color:border-color="#6b3c00">
         <dc:Bounds x="822" y="242" width="36" height="36" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="798" y="285" width="85" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Gateway_0nfmuu0_di" bpmnElement="Gateway_0siohkp">
+      <bpmndi:BPMNShape id="Gateway_0nfmuu0_di" bpmnElement="Gateway_0siohkp" bioc:stroke="#5b176d" bioc:fill="#e1bee7" color:background-color="#e1bee7" color:border-color="#5b176d">
         <dc:Bounds x="640" y="235" width="50" height="50" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_1ewobc3_di" bpmnElement="Flow_1ewobc3">
