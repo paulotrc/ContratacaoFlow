@@ -72,6 +72,12 @@ svc:
     url: http://localhost:8093/svc-imovel/api/v1/imovel/
   automovel:
     url: http://localhost:8094/svc-automovel/api/v1/automovel/
+  spc:
+    url: http://localhost:8096/svc-spc/api/v1/spc/
+  serasa:
+    url: http://localhost:8092/svc-serasa/api/v1/serasa/
+  bacen:
+    url: http://localhost:8095/svc-bacen/api/v1/bacen/
 
 resilience4j:
   circuitbreaker:
@@ -111,5 +117,17 @@ feign:
         connectTimeout: 40000
         readTimeout: 10000
       imovel:
+        connectTimeout: 40000
+        readTimeout: 10000
+      automovel:
+        connectTimeout: 40000
+        readTimeout: 10000
+      bacen:
+        connectTimeout: 40000
+        readTimeout: 10000
+      spc:
+        connectTimeout: 40000
+        readTimeout: 10000
+      serasa:
         connectTimeout: 40000
         readTimeout: 10000

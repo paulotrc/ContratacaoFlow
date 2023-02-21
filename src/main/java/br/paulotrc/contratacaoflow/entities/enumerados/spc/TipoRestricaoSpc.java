@@ -1,6 +1,6 @@
 package br.paulotrc.contratacaoflow.entities.enumerados.spc;
 
-public enum TipoRestricaoSPC {
+public enum TipoRestricaoSpc {
     DIVIDA("Dívida"),
     SITUACAO_CADASTRAL("Situação Cadastral"),
     CPF_CANCELADO("CPF Cancelado"),
@@ -9,7 +9,7 @@ public enum TipoRestricaoSPC {
 
     private String descricao;
 
-    TipoRestricaoSPC(String descricao) {
+    TipoRestricaoSpc(String descricao) {
         this.descricao = descricao;
     }
 }

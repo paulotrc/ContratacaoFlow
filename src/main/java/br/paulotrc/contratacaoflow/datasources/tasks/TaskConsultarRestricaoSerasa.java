@@ -2,11 +2,11 @@ package br.paulotrc.contratacaoflow.datasources.tasks;
 
 import br.paulotrc.contratacaoflow.configs.utils.CamundaProcessVariables;
 import br.paulotrc.contratacaoflow.datasources.MensagemDataSource;
-import br.paulotrc.contratacaoflow.entities.ResponseClienteData;
+import br.paulotrc.contratacaoflow.entities.ResponseRestricaoSerasa;
 import br.paulotrc.contratacaoflow.exceptions.ExceptionUtil;
 import br.paulotrc.contratacaoflow.repositories.ClienteRepository;
+import br.paulotrc.contratacaoflow.repositories.SerasaRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.camunda.bpm.engine.delegate.BpmnError;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
@@ -25,54 +25,52 @@ public class TaskConsultarRestricaoSerasa implements JavaDelegate {
 
     private static final Logger log = LoggerFactory.getLogger(TaskConsultarRestricaoSerasa.class);
 
-    private ClienteRepository clienteRepository;
+    private SerasaRepository serasaRepository;
 
-    public TaskConsultarRestricaoSerasa(ClienteRepository clienteRepository) {
-        this.clienteRepository = clienteRepository;
+    public TaskConsultarRestricaoSerasa(SerasaRepository serasaRepository) {
+        this.serasaRepository = serasaRepository;
     }
 
     @Override
     public void execute(DelegateExecution execution) throws JsonProcessingException {
 
         try {
-            log.info("TaskConsultarCliente - Inicio");
+            log.info("TaskConsultarRestricaoSerasa - Inicio");
             final String cpf = execution.getVariable(CamundaProcessVariables.CPF).toString();
 
-            final List<ResponseClienteData> responseClienteData = clienteRepository.consultarCliente(cpf);
+            final List<ResponseRestricaoSerasa> responseRestricaoSerasaList = serasaRepository.consultarRestricaoSerasa(cpf);
 
-            execution.setVariable(CamundaProcessVariables.TEM_IMOVEL, responseClienteData.get(0).getTemImovel());
-            execution.setVariable(CamundaProcessVariables.TEM_AUTOMOVEL, responseClienteData.get(0).getTemAutomovel());
-            execution.setVariable(CamundaProcessVariables.RENDA, responseClienteData.get(0).getRenda());
-            log.info("TaskConsultarCliente - Fim");
+            execution.setVariable(CamundaProcessVariables.RESTRICAO_SERASA, responseRestricaoSerasaList.size() > 0);
+            log.info("TaskConsultarRestricaoSerasa - Fim");
         } catch (BpmnModelException e) {
 
-            execution.setVariable("ERROR_TECNICO_CLIENTE", TaskConsultarRestricaoSerasa.class.getSimpleName() + " - " + e.getMessage());
+            execution.setVariable("ERROR_TECNICO_SERASA", TaskConsultarRestricaoSerasa.class.getSimpleName() + " - " + e.getMessage());
             log.error(MensagemDataSource.Erro.LOG, e.getMessage(), e.getCause(), e.getStackTrace());
-            throw new BpmnError("ERROR_CLIENTE", "ERROR_CLIENTE", e.getCause());
+            throw new BpmnError("ERROR_SERASA", "ERROR_SERASA", e.getCause());
 
         } catch (HttpClientErrorException e) {
             log.error(MensagemDataSource.Erro.LOG, e.getMessage(), e.getCause(), e.getStackTrace());
             final String jsonException = ExceptionUtil.generateJsonFromException(e.getStatusCode().toString(),
-                    MensagemDataSource.MessageDataSource.ERRO_CONSULTA_CLIENTE, e.getResponseBodyAsString(),
-                    MensagemDataSource.Origem.SERVICE_CLIENTE);
-            execution.setVariable("ERROR_TECNICO_CLIENTE", jsonException);
-            throw new BpmnError("ERROR_CLIENTE", "ERROR_CLIENTE", e.getCause());
+                    MensagemDataSource.MessageDataSource.ERRO_CONSULTA_SERASA, e.getResponseBodyAsString(),
+                    MensagemDataSource.Origem.SERVICE_SERASA);
+            execution.setVariable("ERROR_TECNICO_SERASA", jsonException);
+            throw new BpmnError("ERROR_SERASA", "ERROR_SERASA", e.getCause());
 
         } catch (HttpServerErrorException e) {
             log.error(MensagemDataSource.Erro.LOG, e.getMessage(), e.getCause(), e.getStackTrace());
             final String jsonException = ExceptionUtil.generateJsonFromException(e.getStatusCode().toString(),
-                    MensagemDataSource.MessageDataSource.ERRO_CONSULTA_CLIENTE, e.getResponseBodyAsString(),
-                    MensagemDataSource.Origem.SERVICE_CLIENTE);
-            execution.setVariable("ERROR_TECNICO_CLIENTE", jsonException);
-            throw new BpmnError("ERROR_CLIENTE", "ERROR_CLIENTE", e.getCause());
+                    MensagemDataSource.MessageDataSource.ERRO_CONSULTA_SERASA, e.getResponseBodyAsString(),
+                    MensagemDataSource.Origem.SERVICE_SERASA);
+            execution.setVariable("ERROR_TECNICO_SERASA", jsonException);
+            throw new BpmnError("ERROR_SERASA", "ERROR_SERASA", e.getCause());
 
         } catch (Exception e) {
             final String jsonException = ExceptionUtil.generateJsonFromException(HttpStatus.INTERNAL_SERVER_ERROR.toString(),
-                    MensagemDataSource.MessageDataSource.ERRO_CONSULTA_CLIENTE, e.getMessage(),
-                    MensagemDataSource.Origem.SERVICE_CLIENTE);
-            execution.setVariable("ERROR_TECNICO_CLIENTE", jsonException);
+                    MensagemDataSource.MessageDataSource.ERRO_CONSULTA_SERASA, e.getMessage(),
+                    MensagemDataSource.Origem.SERVICE_SERASA);
+            execution.setVariable("ERROR_TECNICO_SERASA", jsonException);
             log.error(MensagemDataSource.Erro.LOG, e.getMessage(), e.getCause(), e.getStackTrace());
-            throw new BpmnError("ERROR_CLIENTE", "ERROR_CLIENTE", e.getCause());
+            throw new BpmnError("ERROR_SERASA", "ERROR_SERASA", e.getCause());
         }
     }
 }

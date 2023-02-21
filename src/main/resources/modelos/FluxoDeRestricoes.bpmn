@@ -10,39 +10,6 @@
       <bpmn:outgoing>Flow_09hwztq</bpmn:outgoing>
       <bpmn:outgoing>Flow_1cywxr4</bpmn:outgoing>
     </bpmn:parallelGateway>
-    <bpmn:task id="Activity_0hs4ouy" name="Consulta SPC">
-      <bpmn:extensionElements>
-        <camunda:inputOutput>
-          <camunda:outputParameter name="spc">
-            <camunda:script scriptFormat="javascript">Boolean(false);</camunda:script>
-          </camunda:outputParameter>
-        </camunda:inputOutput>
-      </bpmn:extensionElements>
-      <bpmn:incoming>Flow_09hwztq</bpmn:incoming>
-      <bpmn:outgoing>Flow_1tvomfn</bpmn:outgoing>
-    </bpmn:task>
-    <bpmn:task id="Activity_0ohmm2d" name="Consulta BACEN">
-      <bpmn:extensionElements>
-        <camunda:inputOutput>
-          <camunda:outputParameter name="bacen">
-            <camunda:script scriptFormat="javascript">Boolean(false);</camunda:script>
-          </camunda:outputParameter>
-        </camunda:inputOutput>
-      </bpmn:extensionElements>
-      <bpmn:incoming>Flow_1cywxr4</bpmn:incoming>
-      <bpmn:outgoing>Flow_1eg0gkw</bpmn:outgoing>
-    </bpmn:task>
-    <bpmn:task id="say-hello" name="Consulta Serasa">
-      <bpmn:extensionElements>
-        <camunda:inputOutput>
-          <camunda:outputParameter name="serasa">
-            <camunda:script scriptFormat="javascript">Boolean(false);</camunda:script>
-          </camunda:outputParameter>
-        </camunda:inputOutput>
-      </bpmn:extensionElements>
-      <bpmn:incoming>Flow_1ewobc3</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_16gzt2m</bpmn:outgoing>
-    </bpmn:task>
     <bpmn:sequenceFlow id="Flow_1ewobc3" sourceRef="Gateway_0uwz3kq" targetRef="say-hello" />
     <bpmn:sequenceFlow id="Flow_09hwztq" sourceRef="Gateway_0uwz3kq" targetRef="Activity_0hs4ouy" />
     <bpmn:sequenceFlow id="Flow_1cywxr4" sourceRef="Gateway_0uwz3kq" targetRef="Activity_0ohmm2d" />
@@ -60,7 +27,52 @@
       <bpmn:incoming>SequenceFlow_16gzt2m</bpmn:incoming>
       <bpmn:outgoing>Flow_08b7qn8</bpmn:outgoing>
     </bpmn:parallelGateway>
+    <bpmn:serviceTask id="say-hello" name="Consulta Serasa" camunda:delegateExpression="${taskConsultarRestricaoSerasa}">
+      <bpmn:extensionElements />
+      <bpmn:incoming>Flow_1ewobc3</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_16gzt2m</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Activity_0hs4ouy" name="Consulta SPC" camunda:delegateExpression="${taskConsultarRestricaoSPC}">
+      <bpmn:extensionElements />
+      <bpmn:incoming>Flow_09hwztq</bpmn:incoming>
+      <bpmn:outgoing>Flow_1tvomfn</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Activity_0ohmm2d" name="Consulta BACEN" camunda:delegateExpression="${taskConsultarRestricaoBacen}">
+      <bpmn:extensionElements />
+      <bpmn:incoming>Flow_1cywxr4</bpmn:incoming>
+      <bpmn:outgoing>Flow_1eg0gkw</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:boundaryEvent id="Event_0tr5c4j" attachedToRef="say-hello">
+      <bpmn:outgoing>Flow_01xx564</bpmn:outgoing>
+      <bpmn:errorEventDefinition id="ErrorEventDefinition_1mksefu" errorRef="Error_06f9che" camunda:errorCodeVariable="ERROR_SERASA" camunda:errorMessageVariable="ERROR_SERASA" />
+    </bpmn:boundaryEvent>
+    <bpmn:sequenceFlow id="Flow_01xx564" sourceRef="Event_0tr5c4j" targetRef="Event_1a1dv2t" />
+    <bpmn:endEvent id="Event_1a1dv2t">
+      <bpmn:incoming>Flow_01xx564</bpmn:incoming>
+      <bpmn:errorEventDefinition id="ErrorEventDefinition_1unwjhn" errorRef="Error_06f9che" />
+    </bpmn:endEvent>
+    <bpmn:boundaryEvent id="Event_10a1krd" attachedToRef="Activity_0hs4ouy">
+      <bpmn:outgoing>Flow_10suq1g</bpmn:outgoing>
+      <bpmn:errorEventDefinition id="ErrorEventDefinition_0c5p9ip" errorRef="Error_1est6n5" camunda:errorCodeVariable="ERROR_SPC" camunda:errorMessageVariable="ERROR_SPC" />
+    </bpmn:boundaryEvent>
+    <bpmn:sequenceFlow id="Flow_10suq1g" sourceRef="Event_10a1krd" targetRef="Event_00t87zw" />
+    <bpmn:endEvent id="Event_00t87zw">
+      <bpmn:incoming>Flow_10suq1g</bpmn:incoming>
+      <bpmn:errorEventDefinition id="ErrorEventDefinition_09d8af8" errorRef="Error_1est6n5" />
+    </bpmn:endEvent>
+    <bpmn:boundaryEvent id="Event_0s7v92w" attachedToRef="Activity_0ohmm2d">
+      <bpmn:outgoing>Flow_0bzly35</bpmn:outgoing>
+      <bpmn:errorEventDefinition id="ErrorEventDefinition_0x6piwm" errorRef="Error_1w3otkj" camunda:errorCodeVariable="ERROR_BACEN" camunda:errorMessageVariable="ERROR_BACEN" />
+    </bpmn:boundaryEvent>
+    <bpmn:sequenceFlow id="Flow_0bzly35" sourceRef="Event_0s7v92w" targetRef="Event_1k6f0mp" />
+    <bpmn:endEvent id="Event_1k6f0mp">
+      <bpmn:incoming>Flow_0bzly35</bpmn:incoming>
+      <bpmn:errorEventDefinition id="ErrorEventDefinition_0qfnctb" errorRef="Error_1w3otkj" />
+    </bpmn:endEvent>
   </bpmn:process>
+  <bpmn:error id="Error_06f9che" name="ERROR_SERASA" errorCode="ERROR_SERASA" camunda:errorMessage="ERROR_SERASA" />
+  <bpmn:error id="Error_1est6n5" name="ERROR_SPC" errorCode="ERROR_SPC" camunda:errorMessage="ERROR_SPC" />
+  <bpmn:error id="Error_1w3otkj" name="ERROR_BACEN" errorCode="ERROR_BACEN" camunda:errorMessage="ERROR_BACEN" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="SubfluxoConsultaRestricoes">
       <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1" bioc:stroke="#0d4372" bioc:fill="#bbdefb" color:background-color="#bbdefb" color:border-color="#0d4372">
@@ -72,18 +84,6 @@
       <bpmndi:BPMNShape id="Gateway_1peobms_di" bpmnElement="Gateway_0uwz3kq" bioc:stroke="#5b176d" bioc:fill="#e1bee7" color:background-color="#e1bee7" color:border-color="#5b176d">
         <dc:Bounds x="365" y="235" width="50" height="50" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0hs4ouy_di" bpmnElement="Activity_0hs4ouy" bioc:stroke="#831311" bioc:fill="#ffcdd2" color:background-color="#ffcdd2" color:border-color="#831311">
-        <dc:Bounds x="480" y="220" width="100" height="80" />
-        <bpmndi:BPMNLabel />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0ohmm2d_di" bpmnElement="Activity_0ohmm2d" bioc:stroke="#5b176d" bioc:fill="#e1bee7" color:background-color="#e1bee7" color:border-color="#5b176d">
-        <dc:Bounds x="480" y="390" width="100" height="80" />
-        <bpmndi:BPMNLabel />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_11a5yzq_di" bpmnElement="say-hello" bioc:stroke="#6b3c00" bioc:fill="#ffe0b2" color:background-color="#ffe0b2" color:border-color="#6b3c00">
-        <dc:Bounds x="480" y="60" width="100" height="80" />
-        <bpmndi:BPMNLabel />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_1whsh1c_di" bpmnElement="Event_1whsh1c" bioc:stroke="#6b3c00" bioc:fill="#ffe0b2" color:background-color="#ffe0b2" color:border-color="#6b3c00">
         <dc:Bounds x="822" y="242" width="36" height="36" />
         <bpmndi:BPMNLabel>
@@ -92,6 +92,33 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Gateway_0nfmuu0_di" bpmnElement="Gateway_0siohkp" bioc:stroke="#5b176d" bioc:fill="#e1bee7" color:background-color="#e1bee7" color:border-color="#5b176d">
         <dc:Bounds x="640" y="235" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0n2suuw_di" bpmnElement="say-hello" bioc:stroke="#6b3c00" bioc:fill="#ffe0b2" color:background-color="#ffe0b2" color:border-color="#6b3c00">
+        <dc:Bounds x="480" y="60" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0c980el_di" bpmnElement="Activity_0hs4ouy" bioc:stroke="#831311" bioc:fill="#ffcdd2" color:background-color="#ffcdd2" color:border-color="#831311">
+        <dc:Bounds x="480" y="220" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1co28pj_di" bpmnElement="Activity_0ohmm2d" bioc:stroke="#5b176d" bioc:fill="#e1bee7" color:background-color="#e1bee7" color:border-color="#5b176d">
+        <dc:Bounds x="480" y="390" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0c2wpy1_di" bpmnElement="Event_1a1dv2t" bioc:stroke="#831311" bioc:fill="#ffcdd2" color:background-color="#ffcdd2" color:border-color="#831311">
+        <dc:Bounds x="602" y="172" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1o7zl4k_di" bpmnElement="Event_00t87zw" bioc:stroke="#831311" bioc:fill="#ffcdd2" color:background-color="#ffcdd2" color:border-color="#831311">
+        <dc:Bounds x="602" y="332" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0iahy16_di" bpmnElement="Event_1k6f0mp" bioc:stroke="#831311" bioc:fill="#ffcdd2" color:background-color="#ffcdd2" color:border-color="#831311">
+        <dc:Bounds x="602" y="492" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0fveb2i_di" bpmnElement="Event_0tr5c4j" bioc:stroke="#6b3c00" bioc:fill="#ffe0b2" color:background-color="#ffe0b2" color:border-color="#6b3c00">
+        <dc:Bounds x="542" y="122" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0y5oiel_di" bpmnElement="Event_10a1krd" bioc:stroke="#6b3c00" bioc:fill="#ffe0b2" color:background-color="#ffe0b2" color:border-color="#6b3c00">
+        <dc:Bounds x="542" y="282" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0hzhubw_di" bpmnElement="Event_0s7v92w" bioc:stroke="#6b3c00" bioc:fill="#ffe0b2" color:background-color="#ffe0b2" color:border-color="#6b3c00">
+        <dc:Bounds x="542" y="452" width="36" height="36" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_1ewobc3_di" bpmnElement="Flow_1ewobc3">
         <di:waypoint x="390" y="235" />
@@ -128,6 +155,21 @@
       <bpmndi:BPMNEdge id="Flow_08b7qn8_di" bpmnElement="Flow_08b7qn8">
         <di:waypoint x="690" y="260" />
         <di:waypoint x="822" y="260" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_01xx564_di" bpmnElement="Flow_01xx564">
+        <di:waypoint x="560" y="158" />
+        <di:waypoint x="560" y="190" />
+        <di:waypoint x="602" y="190" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_10suq1g_di" bpmnElement="Flow_10suq1g">
+        <di:waypoint x="560" y="318" />
+        <di:waypoint x="560" y="350" />
+        <di:waypoint x="602" y="350" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0bzly35_di" bpmnElement="Flow_0bzly35">
+        <di:waypoint x="560" y="488" />
+        <di:waypoint x="560" y="510" />
+        <di:waypoint x="602" y="510" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

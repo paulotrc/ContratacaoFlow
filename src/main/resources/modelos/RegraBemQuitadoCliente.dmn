@@ -7,7 +7,7 @@
           <text>dataFimContratoMaiorQueDataAtual</text>
         </inputExpression>
       </input>
-      <input id="InputClause_02m4hw3" label="Tem Parcelas em Aberto">
+      <input id="InputClause_02m4hw3" label="Tem Parcelas em Aberto" biodi:width="218">
         <inputExpression id="LiteralExpression_09xw39p" typeRef="boolean">
           <text>parcelasEmAberto</text>
         </inputExpression>

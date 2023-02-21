@@ -31,4 +31,8 @@ public final class CamundaProcessVariables {
     public static final String DECLARACAO_DE_AUTOMOVEL_INVALIDA = "declaracaoDeAutomovelInvalida";
 
     public static final String SUSPEITA_DE_FRAUDE = "suspeitaDeFraude";
+
+    public static final String RESTRICAO_SERASA = "serasa";
+    public static final String RESTRICAO_SPC = "spc";
+    public static final String RESTRICAO_BACEN = "bacen";
 }
