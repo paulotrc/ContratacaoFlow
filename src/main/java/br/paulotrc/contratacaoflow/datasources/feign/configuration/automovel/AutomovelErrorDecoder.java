@@ -1,6 +1,6 @@
 package br.paulotrc.contratacaoflow.datasources.feign.configuration.automovel;
 
-import br.paulotrc.contratacaoflow.entities.ResponseAutomovelClienteData;
+import br.paulotrc.contratacaoflow.entities.automovel.ResponseAutomovelData;
 import br.paulotrc.contratacaoflow.exceptions.feign.GatewayResourceIntegrationRuntimeException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import feign.Response;
@@ -19,11 +19,11 @@ public class AutomovelErrorDecoder implements ErrorDecoder {
         try {
             InputStream body = response.body().asInputStream();
 
-            ResponseAutomovelClienteData responseAutomovelClienteData = objectMapper.readValue(body, ResponseAutomovelClienteData.class);
+            ResponseAutomovelData responseAutomovelData = objectMapper.readValue(body, ResponseAutomovelData.class);
 
             return new GatewayResourceIntegrationRuntimeException(
-                    responseAutomovelClienteData.getStatus().getErros().getMsgErro(),
-                    responseAutomovelClienteData.getStatus().getCodigo(),
+                    responseAutomovelData.getStatus().getErros().getMsgErro(),
+                    responseAutomovelData.getStatus().getCodigo(),
                     HttpStatus.valueOf(response.status()),
                     "INTERNAL");
 

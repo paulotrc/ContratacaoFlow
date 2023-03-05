@@ -1,7 +1,7 @@
 package br.paulotrc.contratacaoflow.datasources.feign;
 
 import br.paulotrc.contratacaoflow.datasources.feign.configuration.bacen.BacenClientConfiguration;
-import br.paulotrc.contratacaoflow.entities.ResponseRestricaoBacen;
+import br.paulotrc.contratacaoflow.entities.bacen.ResponseRestricaoBacenData;
 import feign.Headers;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Service;
@@ -19,6 +19,6 @@ public interface BacenClient {
 
     @GetMapping("/cpf/{cpf}")
     @Headers({"Content-Type: application/json"})
-    List<ResponseRestricaoBacen> consultarRestricaoBacenCliente(@PathVariable(name = "cpf") String cpf);
+    List<ResponseRestricaoBacenData> consultarRestricaoBacenCliente(@PathVariable(name = "cpf") String cpf);
 
 }

@@ -1,8 +1,7 @@
 package br.paulotrc.contratacaoflow.datasources.feign;
 
 import br.paulotrc.contratacaoflow.datasources.feign.configuration.automovel.AutomovelClientConfiguration;
-import br.paulotrc.contratacaoflow.datasources.feign.configuration.imovel.ImovelClientConfiguration;
-import br.paulotrc.contratacaoflow.entities.ResponseAutomovelClienteData;
+import br.paulotrc.contratacaoflow.entities.automovel.ResponseAutomovelData;
 import feign.Headers;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Service;
@@ -20,6 +19,6 @@ public interface AutomovelClient {
 
     @GetMapping("/cliente/{cpf}")
     @Headers({"Content-Type: application/json"})
-    List<ResponseAutomovelClienteData> consultarAutomovelClientePeloCpf(@PathVariable(name = "cpf") String cpf);
+    List<ResponseAutomovelData> consultarAutomovelClientePeloCpf(@PathVariable(name = "cpf") String cpf);
 
 }

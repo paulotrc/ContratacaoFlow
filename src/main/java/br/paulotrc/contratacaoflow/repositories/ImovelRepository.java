@@ -1,12 +1,11 @@
 package br.paulotrc.contratacaoflow.repositories;
 
-import br.paulotrc.contratacaoflow.entities.ResponseClienteData;
-import br.paulotrc.contratacaoflow.entities.ResponseImovelClienteData;
+import br.paulotrc.contratacaoflow.entities.imovel.ResponseImovelData;
 
 import java.util.List;
 
 public interface ImovelRepository {
 
 
-    List<ResponseImovelClienteData> consultarImovelCliente(String cpf);
+    List<ResponseImovelData> consultarImovelCliente(String cpf);
 }

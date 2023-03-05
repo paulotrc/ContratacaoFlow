@@ -1,7 +1,7 @@
-package br.paulotrc.contratacaoflow.entities;
+package br.paulotrc.contratacaoflow.entities.serasa;
 
+import br.paulotrc.contratacaoflow.entities.Status;
 import br.paulotrc.contratacaoflow.entities.enumerados.serasa.TipoRestricaoSerasa;
-import br.paulotrc.contratacaoflow.entities.enumerados.spc.TipoRestricaoSpc;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,7 +14,7 @@ import java.util.UUID;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ResponseRestricaoSerasa {
+public class ResponseRestricaoSerasaData {
 
         private UUID id;
         private String cpf;

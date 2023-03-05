@@ -1,7 +1,7 @@
 package br.paulotrc.contratacaoflow.datasources;
 
 import br.paulotrc.contratacaoflow.datasources.feign.ImovelClient;
-import br.paulotrc.contratacaoflow.entities.ResponseImovelClienteData;
+import br.paulotrc.contratacaoflow.entities.imovel.ResponseImovelData;
 import br.paulotrc.contratacaoflow.repositories.ImovelRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,9 +19,9 @@ public class ImovelDataSource implements ImovelRepository {
     private ImovelClient imovelClient;
 
     @Override
-    public List<ResponseImovelClienteData> consultarImovelCliente(String cpf) {
+    public List<ResponseImovelData> consultarImovelCliente(String cpf) {
 
-        final List<ResponseImovelClienteData> response;
+        final List<ResponseImovelData> response;
         try {
             response = imovelClient.consultarImovelCliente(cpf);
         } catch (RuntimeException ex) {

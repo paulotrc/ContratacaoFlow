@@ -1,7 +1,7 @@
 package br.paulotrc.contratacaoflow.datasources;
 
 import br.paulotrc.contratacaoflow.datasources.feign.ClienteClient;
-import br.paulotrc.contratacaoflow.entities.ResponseClienteData;
+import br.paulotrc.contratacaoflow.entities.cliente.ResponseClienteData;
 import br.paulotrc.contratacaoflow.repositories.ClienteRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

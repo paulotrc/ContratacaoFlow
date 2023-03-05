@@ -58,8 +58,8 @@ public class EmprestimoProcessDataSource implements EmprestimoProcessRepository 
                 instance.getVariables().get(BUSSINESS_KEY).toString(),
                 instance.getVariables().get(CPF).toString(),
                 instance.getVariables().get(NOME).toString(),
-                ((Double)((Map<String, Object>)instance.getVariables().get(RESULT_CALCULO_RISCO)).get(PERCENTUAL_LIBERADO)),
-                ((String)((Map<String, Object>)instance.getVariables().get(RESULT_CALCULO_RISCO)).get(RISCO)),
+                ((Double)((Map<String, Object>)instance.getVariables().get(RISCO)).get(PERCENTUAL_LIBERADO)),
+                ((String)((Map<String, Object>)instance.getVariables().get(RISCO)).get(NIVEL)),
                 BigDecimal.valueOf(Double.valueOf(instance.getVariables().get(RENDA).toString())));
     }
 

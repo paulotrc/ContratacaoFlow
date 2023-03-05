@@ -10,7 +10,7 @@ public final class CamundaProcessVariables {
     public static final String BUSSINESS_KEY = "bussinessKey";
     public static final String CPF = "cpf";
     public static final String NOME = "nome";
-    public static final String STATUS = "status";
+    public static final String PODE_TOMAR_EMPRESTIMO = "podeTomarEmprestimo";
 
     public static final String TEM_IMOVEL = "temImovel";
 
@@ -18,11 +18,10 @@ public final class CamundaProcessVariables {
 
     public static final String RENDA = "renda";
 
-    public static final String RESULT_CALCULO_RISCO = "riscoResult";
-
     public static final String PERCENTUAL_LIBERADO = "percentualMax";
 
-    public static final String RISCO = "nivel";
+    public static final String NIVEL = "nivel";
+    public static final String RISCO = "riscoResult";
 
     public static final String DATA_FIM_CONTRATO_MAIOR_QUE_ATUAL = "dataFimContratoMaiorQueDataAtual";
     public static final String PARCELAS_EM_ABERTO = "parcelasEmAberto";

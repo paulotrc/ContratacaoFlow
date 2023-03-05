@@ -1,7 +1,7 @@
 package br.paulotrc.contratacaoflow.datasources;
 
 import br.paulotrc.contratacaoflow.datasources.feign.AutomovelClient;
-import br.paulotrc.contratacaoflow.entities.ResponseAutomovelClienteData;
+import br.paulotrc.contratacaoflow.entities.automovel.ResponseAutomovelData;
 import br.paulotrc.contratacaoflow.repositories.AutomovelRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,9 +19,9 @@ public class AutomovelDataSource implements AutomovelRepository {
     private AutomovelClient automovelClient;
 
     @Override
-    public List<ResponseAutomovelClienteData> consultarAutomovelClientePeloCpf(String cpf) {
+    public List<ResponseAutomovelData> consultarAutomovelClientePeloCpf(String cpf) {
 
-        final List<ResponseAutomovelClienteData> response;
+        final List<ResponseAutomovelData> response;
         try {
             response = automovelClient.consultarAutomovelClientePeloCpf(cpf);
         } catch (RuntimeException ex) {

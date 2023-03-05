@@ -1,7 +1,6 @@
 package br.paulotrc.contratacaoflow.datasources.feign.configuration.bacen;
 
-import br.paulotrc.contratacaoflow.entities.ResponseImovelClienteData;
-import br.paulotrc.contratacaoflow.entities.ResponseRestricaoBacen;
+import br.paulotrc.contratacaoflow.entities.bacen.ResponseRestricaoBacenData;
 import br.paulotrc.contratacaoflow.exceptions.feign.GatewayResourceIntegrationRuntimeException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import feign.Response;
@@ -20,11 +19,11 @@ public class BacenErrorDecoder implements ErrorDecoder {
         try {
             InputStream body = response.body().asInputStream();
 
-            ResponseRestricaoBacen responseRestricaoBacen = objectMapper.readValue(body, ResponseRestricaoBacen.class);
+            ResponseRestricaoBacenData responseRestricaoBacenData = objectMapper.readValue(body, ResponseRestricaoBacenData.class);
 
             return new GatewayResourceIntegrationRuntimeException(
-                    responseRestricaoBacen.getStatus().getErros().getMsgErro(),
-                    responseRestricaoBacen.getStatus().getCodigo(),
+                    responseRestricaoBacenData.getStatus().getErros().getMsgErro(),
+                    responseRestricaoBacenData.getStatus().getCodigo(),
                     HttpStatus.valueOf(response.status()),
                     "INTERNAL");
 

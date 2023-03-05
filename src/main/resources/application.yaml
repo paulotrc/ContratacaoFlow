@@ -15,6 +15,10 @@ server:
 ## https://docs.camunda.org/manual/latest/user-guide/spring-boot-integration/configuration/#camunda-engine-properties
 camunda:
   bpm:
+    eventing:
+      execution: true
+      history: false
+      task: true
     webapp.index-redirect-enabled: false
     admin-user:
       id: admin
@@ -23,10 +27,9 @@ camunda:
     id-generator: strong
     job-execution:
       active: true
-      lockTimeInMillis: 1200000
-      maximum-pool-size: 5
-      max-pool-size: 5
-      core-pool-size: 5
+      lockTimeInMillis: 300000
+      max-pool-size: 10
+      core-pool-size: 3
     database:
       schema-update: true
 
@@ -78,6 +81,8 @@ svc:
     url: http://localhost:8092/svc-serasa/api/v1/serasa/
   bacen:
     url: http://localhost:8095/svc-bacen/api/v1/bacen/
+  riscocliente:
+    url: http://localhost:8097/svc-riscocliente/api/v1/riscocliente/
 
 resilience4j:
   circuitbreaker:

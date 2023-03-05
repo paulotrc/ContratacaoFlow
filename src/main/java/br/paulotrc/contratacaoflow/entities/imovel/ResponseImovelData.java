@@ -1,5 +1,6 @@
-package br.paulotrc.contratacaoflow.entities;
+package br.paulotrc.contratacaoflow.entities.imovel;
 
+import br.paulotrc.contratacaoflow.entities.Status;
 import br.paulotrc.contratacaoflow.entities.enumerados.imovel.TipoImovel;
 import br.paulotrc.contratacaoflow.entities.enumerados.imovel.TipoRestricaoImovel;
 import lombok.AllArgsConstructor;
@@ -14,7 +15,7 @@ import java.util.UUID;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ResponseImovelClienteData {
+public class ResponseImovelData {
 
         private UUID id;
         private String cpf; //Documento de identificação do dono do imóvel

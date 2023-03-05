@@ -1,12 +1,11 @@
 package br.paulotrc.contratacaoflow.repositories;
 
-import br.paulotrc.contratacaoflow.entities.ResponseRestricaoSerasa;
-import br.paulotrc.contratacaoflow.entities.ResponseRestricaoSpc;
+import br.paulotrc.contratacaoflow.entities.serasa.ResponseRestricaoSerasaData;
 
 import java.util.List;
 
 public interface SerasaRepository {
 
 
-    List<ResponseRestricaoSerasa> consultarRestricaoSerasa(String cpf);
+    List<ResponseRestricaoSerasaData> consultarRestricaoSerasa(String cpf);
 }

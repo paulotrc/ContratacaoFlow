@@ -1,7 +1,7 @@
 package br.paulotrc.contratacaoflow.datasources.feign;
 
 import br.paulotrc.contratacaoflow.datasources.feign.configuration.spc.SpcClientConfiguration;
-import br.paulotrc.contratacaoflow.entities.ResponseRestricaoSpc;
+import br.paulotrc.contratacaoflow.entities.spc.ResponseRestricaoSpcData;
 import feign.Headers;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Service;
@@ -19,6 +19,6 @@ public interface SpcClient {
 
     @GetMapping("/cpf/{cpf}")
     @Headers({"Content-Type: application/json"})
-    List<ResponseRestricaoSpc> consultarRestricaoSpcCliente(@PathVariable(name = "cpf") String cpf);
+    List<ResponseRestricaoSpcData> consultarRestricaoSpcCliente(@PathVariable(name = "cpf") String cpf);
 
 }

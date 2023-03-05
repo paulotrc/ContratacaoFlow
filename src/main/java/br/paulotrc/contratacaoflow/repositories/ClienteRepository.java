@@ -1,6 +1,6 @@
 package br.paulotrc.contratacaoflow.repositories;
 
-import br.paulotrc.contratacaoflow.entities.ResponseClienteData;
+import br.paulotrc.contratacaoflow.entities.cliente.ResponseClienteData;
 
 import java.util.List;
 

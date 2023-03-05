@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" xmlns:color="http://www.omg.org/spec/BPMN/non-normative/color/1.0" id="Definitions_0fr9mxs" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.7.0">
-  <bpmn:process id="OfertarEmprestimoFlowProcess" name="Fluxo de Contratação de Empréstimo" isExecutable="true" camunda:versionTag="v1.2">
+  <bpmn:process id="OfertarEmprestimoFlowProcess" name="Fluxo de Contratação de Empréstimo" isExecutable="true" camunda:versionTag="v2.1">
     <bpmn:startEvent id="StartEvent_1" name="Ofertar Empréstimo">
       <bpmn:outgoing>SequenceFlow_1fp17al</bpmn:outgoing>
     </bpmn:startEvent>
@@ -88,22 +88,29 @@
       <bpmn:outgoing>Flow_16anncn</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     <bpmn:sequenceFlow id="Flow_16anncn" sourceRef="Gateway_1mpui81" targetRef="EndEvent_0x6ir2l" />
-    <bpmn:boundaryEvent id="Event_1t9om37" name="Cliente Exception throwed" attachedToRef="Activity_0n1r6xj">
-      <bpmn:outgoing>Flow_0e8nm0m</bpmn:outgoing>
-      <bpmn:errorEventDefinition id="ErrorEventDefinition_17zdzxp" errorRef="Error_1oc5tdd" camunda:errorCodeVariable="ERROR_CLIENTE" camunda:errorMessageVariable="ERROR_CLIENTE" />
-    </bpmn:boundaryEvent>
-    <bpmn:sequenceFlow id="Flow_0e8nm0m" sourceRef="Event_1t9om37" targetRef="Event_0ykl10v" />
-    <bpmn:endEvent id="Event_0ykl10v" name="End flow with exception">
-      <bpmn:incoming>Flow_0e8nm0m</bpmn:incoming>
-      <bpmn:errorEventDefinition id="ErrorEventDefinition_1gicdwm" errorRef="Error_1oc5tdd" />
-    </bpmn:endEvent>
     <bpmn:sequenceFlow id="Flow_19jfhzr" sourceRef="Activity_0hi9mdj" targetRef="Activity_1hl0t3v" />
     <bpmn:businessRuleTask id="Activity_0hi9mdj" name="Aplicar Regra Risco Cliente - Bens" camunda:resultVariable="riscoResult" camunda:decisionRef="RiscoBens" camunda:mapDecisionResult="singleResult">
       <bpmn:incoming>Flow_0wtiubr</bpmn:incoming>
       <bpmn:outgoing>Flow_19jfhzr</bpmn:outgoing>
     </bpmn:businessRuleTask>
+    <bpmn:subProcess id="IdFluxoExceptionLogger" name="Tratamento de Exceções e Log de erros e dados" triggeredByEvent="true">
+      <bpmn:startEvent id="IdIniciarFluxoExcecoes" name="Iniciar fluxo de exceções">
+        <bpmn:outgoing>Flow_1wm27ll</bpmn:outgoing>
+        <bpmn:errorEventDefinition id="ErrorEventDefinition_0qeshjn" errorRef="Error_0mx4t19" camunda:errorCodeVariable="ERROR" camunda:errorMessageVariable="ERROR" />
+      </bpmn:startEvent>
+      <bpmn:endEvent id="IdFinalizarFluxoExcecoes" name="Finalizar o fluxo de exceções">
+        <bpmn:incoming>Flow_16p0ltz</bpmn:incoming>
+      </bpmn:endEvent>
+      <bpmn:serviceTask id="IdTaskLoggerData" name="Task Logger Data" camunda:asyncAfter="true" camunda:delegateExpression="${taskLogger}">
+        <bpmn:incoming>Flow_1wm27ll</bpmn:incoming>
+        <bpmn:outgoing>Flow_16p0ltz</bpmn:outgoing>
+      </bpmn:serviceTask>
+      <bpmn:sequenceFlow id="Flow_1wm27ll" sourceRef="IdIniciarFluxoExcecoes" targetRef="IdTaskLoggerData" />
+      <bpmn:sequenceFlow id="Flow_16p0ltz" sourceRef="IdTaskLoggerData" targetRef="IdFinalizarFluxoExcecoes" />
+    </bpmn:subProcess>
   </bpmn:process>
   <bpmn:error id="Error_1oc5tdd" name="ERROR_CLIENTE" errorCode="ERROR_CLIENTE" camunda:errorMessage="ERROR_CLIENTE" />
+  <bpmn:error id="Error_0mx4t19" name="ERROR" errorCode="ERROR" camunda:errorMessage="ERROR" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="OfertarEmprestimoFlowProcess">
       <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1" bioc:stroke="#0d4372" bioc:fill="#bbdefb" color:background-color="#bbdefb" color:border-color="#0d4372">
@@ -154,28 +161,44 @@
       <bpmndi:BPMNShape id="Gateway_1mpui81_di" bpmnElement="Gateway_1mpui81" isMarkerVisible="true" bioc:stroke="#5b176d" bioc:fill="#e1bee7" color:background-color="#e1bee7" color:border-color="#5b176d">
         <dc:Bounds x="1535" y="135" width="50" height="50" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_12ctem6_di" bpmnElement="Event_0ykl10v" bioc:stroke="#831311" bioc:fill="#ffcdd2" color:background-color="#ffcdd2" color:border-color="#831311">
-        <dc:Bounds x="372" y="262" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="358" y="305" width="65" height="27" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0y4hhva_di" bpmnElement="Activity_0hi9mdj" bioc:stroke="#831311" bioc:fill="#ffcdd2" color:background-color="#ffcdd2" color:border-color="#831311">
-        <dc:Bounds x="900" y="120" width="100" height="80" />
+        <dc:Bounds x="920" y="120" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_1duwx2d_di" bpmnElement="Event_1t9om37" bioc:stroke="#6b3c00" bioc:fill="#ffe0b2" color:background-color="#ffe0b2" color:border-color="#6b3c00">
-        <dc:Bounds x="332" y="182" width="36" height="36" />
+      <bpmndi:BPMNShape id="Activity_1rtmi84_di" bpmnElement="IdFluxoExceptionLogger" isExpanded="true">
+        <dc:Bounds x="170" y="330" width="385" height="200" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1jdtrol_di" bpmnElement="IdIniciarFluxoExcecoes" bioc:stroke="#0d4372" bioc:fill="#bbdefb" color:background-color="#bbdefb" color:border-color="#0d4372">
+        <dc:Bounds x="210" y="412" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="357" y="218" width="86" height="27" />
+          <dc:Bounds x="193" y="455" width="71" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1cmdbct_di" bpmnElement="IdFinalizarFluxoExcecoes" bioc:stroke="#6b3c00" bioc:fill="#ffe0b2" color:background-color="#ffe0b2" color:border-color="#6b3c00">
+        <dc:Bounds x="462" y="412" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="441" y="455" width="78" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0n3p0t2_di" bpmnElement="IdTaskLoggerData" bioc:stroke="#831311" bioc:fill="#ffcdd2" color:background-color="#ffcdd2" color:border-color="#831311">
+        <dc:Bounds x="300" y="390" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1wm27ll_di" bpmnElement="Flow_1wm27ll">
+        <di:waypoint x="246" y="430" />
+        <di:waypoint x="300" y="430" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_16p0ltz_di" bpmnElement="Flow_16p0ltz">
+        <di:waypoint x="400" y="430" />
+        <di:waypoint x="462" y="430" />
+      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_1fp17al_di" bpmnElement="SequenceFlow_1fp17al">
         <di:waypoint x="215" y="160" />
         <di:waypoint x="280" y="160" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0wtiubr_di" bpmnElement="Flow_0wtiubr">
         <di:waypoint x="870" y="160" />
-        <di:waypoint x="900" y="160" />
+        <di:waypoint x="920" y="160" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_092qaqo_di" bpmnElement="Flow_092qaqo">
         <di:waypoint x="1510" y="160" />
@@ -221,13 +244,8 @@
         <di:waypoint x="1585" y="160" />
         <di:waypoint x="1622" y="160" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0e8nm0m_di" bpmnElement="Flow_0e8nm0m">
-        <di:waypoint x="350" y="218" />
-        <di:waypoint x="350" y="280" />
-        <di:waypoint x="372" y="280" />
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_19jfhzr_di" bpmnElement="Flow_19jfhzr">
-        <di:waypoint x="1000" y="160" />
+        <di:waypoint x="1020" y="160" />
         <di:waypoint x="1080" y="160" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>

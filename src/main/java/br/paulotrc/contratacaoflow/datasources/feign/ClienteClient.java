@@ -1,7 +1,7 @@
 package br.paulotrc.contratacaoflow.datasources.feign;
 
 import br.paulotrc.contratacaoflow.datasources.feign.configuration.cliente.ClienteClientConfiguration;
-import br.paulotrc.contratacaoflow.entities.ResponseClienteData;
+import br.paulotrc.contratacaoflow.entities.cliente.ResponseClienteData;
 import feign.Headers;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Service;

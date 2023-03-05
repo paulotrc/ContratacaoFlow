@@ -1,7 +1,7 @@
 package br.paulotrc.contratacaoflow.datasources;
 
 import br.paulotrc.contratacaoflow.datasources.feign.BacenClient;
-import br.paulotrc.contratacaoflow.entities.ResponseRestricaoBacen;
+import br.paulotrc.contratacaoflow.entities.bacen.ResponseRestricaoBacenData;
 import br.paulotrc.contratacaoflow.repositories.BacenRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,9 +19,9 @@ public class BacenDataSource implements BacenRepository {
     private BacenClient bacenClient;
 
     @Override
-    public List<ResponseRestricaoBacen> consultarRestricaoBacen(String cpf) {
+    public List<ResponseRestricaoBacenData> consultarRestricaoBacen(String cpf) {
 
-        final List<ResponseRestricaoBacen> response;
+        final List<ResponseRestricaoBacenData> response;
         try {
             response = bacenClient.consultarRestricaoBacenCliente(cpf);
         } catch (RuntimeException ex) {

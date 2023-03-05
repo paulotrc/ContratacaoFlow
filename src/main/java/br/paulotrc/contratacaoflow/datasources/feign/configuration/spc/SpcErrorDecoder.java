@@ -1,7 +1,6 @@
 package br.paulotrc.contratacaoflow.datasources.feign.configuration.spc;
 
-import br.paulotrc.contratacaoflow.entities.ResponseImovelClienteData;
-import br.paulotrc.contratacaoflow.entities.ResponseRestricaoSpc;
+import br.paulotrc.contratacaoflow.entities.spc.ResponseRestricaoSpcData;
 import br.paulotrc.contratacaoflow.exceptions.feign.GatewayResourceIntegrationRuntimeException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import feign.Response;
@@ -20,7 +19,7 @@ public class SpcErrorDecoder implements ErrorDecoder {
         try {
             InputStream body = response.body().asInputStream();
 
-            ResponseRestricaoSpc responseRestricaoSpc = objectMapper.readValue(body, ResponseRestricaoSpc.class);
+            ResponseRestricaoSpcData responseRestricaoSpc = objectMapper.readValue(body, ResponseRestricaoSpcData.class);
 
             return new GatewayResourceIntegrationRuntimeException(
                     responseRestricaoSpc.getStatus().getErros().getMsgErro(),

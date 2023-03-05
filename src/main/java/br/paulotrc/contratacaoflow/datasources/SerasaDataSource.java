@@ -1,8 +1,7 @@
 package br.paulotrc.contratacaoflow.datasources;
 
 import br.paulotrc.contratacaoflow.datasources.feign.SerasaClient;
-import br.paulotrc.contratacaoflow.entities.ResponseRestricaoSerasa;
-import br.paulotrc.contratacaoflow.entities.ResponseRestricaoSpc;
+import br.paulotrc.contratacaoflow.entities.serasa.ResponseRestricaoSerasaData;
 import br.paulotrc.contratacaoflow.repositories.SerasaRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,9 +19,9 @@ public class SerasaDataSource implements SerasaRepository {
     private SerasaClient serasaClient;
 
     @Override
-    public List<ResponseRestricaoSerasa> consultarRestricaoSerasa(String cpf) {
+    public List<ResponseRestricaoSerasaData> consultarRestricaoSerasa(String cpf) {
 
-        final List<ResponseRestricaoSerasa> response;
+        final List<ResponseRestricaoSerasaData> response;
         try {
             response = serasaClient.consultarRestricaoSerasaCliente(cpf);
         } catch (RuntimeException ex) {

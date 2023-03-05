@@ -1,6 +1,7 @@
-package br.paulotrc.contratacaoflow.entities;
+package br.paulotrc.contratacaoflow.entities.spc;
 
-import br.paulotrc.contratacaoflow.entities.enumerados.bacen.TipoRestricaoBacen;
+import br.paulotrc.contratacaoflow.entities.Status;
+import br.paulotrc.contratacaoflow.entities.enumerados.spc.TipoRestricaoSpc;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,12 +14,12 @@ import java.util.UUID;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ResponseRestricaoBacen {
+public class ResponseRestricaoSpcData {
 
         private UUID id;
         private String cpf;
         private Boolean temRestricao;
-        private TipoRestricaoBacen tipoRestricaoBacen;
+        private TipoRestricaoSpc tipoRestricaoSpc;
         private BigDecimal valorRestricao;
         private Status status;
 }

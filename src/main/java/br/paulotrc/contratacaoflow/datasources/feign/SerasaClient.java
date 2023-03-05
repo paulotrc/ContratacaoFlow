@@ -1,7 +1,7 @@
 package br.paulotrc.contratacaoflow.datasources.feign;
 
 import br.paulotrc.contratacaoflow.datasources.feign.configuration.serasa.SerasaClientConfiguration;
-import br.paulotrc.contratacaoflow.entities.ResponseRestricaoSerasa;
+import br.paulotrc.contratacaoflow.entities.serasa.ResponseRestricaoSerasaData;
 import feign.Headers;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Service;
@@ -19,6 +19,6 @@ public interface SerasaClient {
 
     @GetMapping("/cpf/{cpf}")
     @Headers({"Content-Type: application/json"})
-    List<ResponseRestricaoSerasa> consultarRestricaoSerasaCliente(@PathVariable(name = "cpf") String cpf);
+    List<ResponseRestricaoSerasaData> consultarRestricaoSerasaCliente(@PathVariable(name = "cpf") String cpf);
 
 }

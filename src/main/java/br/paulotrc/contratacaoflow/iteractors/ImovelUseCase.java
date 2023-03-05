@@ -1,6 +1,6 @@
 package br.paulotrc.contratacaoflow.iteractors;
 
-import br.paulotrc.contratacaoflow.entities.ResponseImovelClienteData;
+import br.paulotrc.contratacaoflow.entities.imovel.ResponseImovelData;
 import br.paulotrc.contratacaoflow.repositories.ImovelRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,7 +13,7 @@ public class ImovelUseCase {
 
     private ImovelRepository imovelRepository;
 
-    public List<ResponseImovelClienteData> consultarImovelCliente(String cpf){
+    public List<ResponseImovelData> consultarImovelCliente(String cpf){
         return imovelRepository.consultarImovelCliente(cpf);
     }
 }

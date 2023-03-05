@@ -1,7 +1,7 @@
 package br.paulotrc.contratacaoflow.datasources;
 
 import br.paulotrc.contratacaoflow.datasources.feign.SpcClient;
-import br.paulotrc.contratacaoflow.entities.ResponseRestricaoSpc;
+import br.paulotrc.contratacaoflow.entities.spc.ResponseRestricaoSpcData;
 import br.paulotrc.contratacaoflow.repositories.SpcRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,9 +19,9 @@ public class SpcDataSource implements SpcRepository {
     private SpcClient spcClient;
 
     @Override
-    public List<ResponseRestricaoSpc> consultarRestricaoSpc(String cpf) {
+    public List<ResponseRestricaoSpcData> consultarRestricaoSpc(String cpf) {
 
-        final List<ResponseRestricaoSpc> response;
+        final List<ResponseRestricaoSpcData> response;
         try {
             response = spcClient.consultarRestricaoSpcCliente(cpf);
         } catch (RuntimeException ex) {

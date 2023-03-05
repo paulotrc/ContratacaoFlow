@@ -1,7 +1,6 @@
 package br.paulotrc.contratacaoflow.datasources.feign.configuration.serasa;
 
-import br.paulotrc.contratacaoflow.entities.ResponseRestricaoSerasa;
-import br.paulotrc.contratacaoflow.entities.ResponseRestricaoSpc;
+import br.paulotrc.contratacaoflow.entities.serasa.ResponseRestricaoSerasaData;
 import br.paulotrc.contratacaoflow.exceptions.feign.GatewayResourceIntegrationRuntimeException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import feign.Response;
@@ -20,7 +19,7 @@ public class SerasaErrorDecoder implements ErrorDecoder {
         try {
             InputStream body = response.body().asInputStream();
 
-            ResponseRestricaoSerasa responseRestricaoSerasa = objectMapper.readValue(body, ResponseRestricaoSerasa.class);
+            ResponseRestricaoSerasaData responseRestricaoSerasa = objectMapper.readValue(body, ResponseRestricaoSerasaData.class);
 
             return new GatewayResourceIntegrationRuntimeException(
                     responseRestricaoSerasa.getStatus().getErros().getMsgErro(),

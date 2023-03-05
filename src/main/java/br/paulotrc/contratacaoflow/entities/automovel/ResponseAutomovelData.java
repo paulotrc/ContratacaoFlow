@@ -1,5 +1,6 @@
-package br.paulotrc.contratacaoflow.entities;
+package br.paulotrc.contratacaoflow.entities.automovel;
 
+import br.paulotrc.contratacaoflow.entities.Status;
 import br.paulotrc.contratacaoflow.entities.enumerados.automovel.TipoAutomovel;
 import br.paulotrc.contratacaoflow.entities.enumerados.automovel.TipoRestricaoAutomovel;
 import lombok.AllArgsConstructor;
@@ -14,7 +15,7 @@ import java.util.UUID;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ResponseAutomovelClienteData {
+public class ResponseAutomovelData {
 
         private UUID id;
         private String cpf; //Documento de identificação do dono do automovel

@@ -2,12 +2,11 @@ package br.paulotrc.contratacaoflow.datasources.tasks;
 
 import br.paulotrc.contratacaoflow.configs.utils.CamundaProcessVariables;
 import br.paulotrc.contratacaoflow.datasources.MensagemDataSource;
-import br.paulotrc.contratacaoflow.entities.ResponseRestricaoSerasa;
-import br.paulotrc.contratacaoflow.entities.ResponseRestricaoSpc;
+import br.paulotrc.contratacaoflow.entities.spc.ResponseRestricaoSpcData;
 import br.paulotrc.contratacaoflow.exceptions.ExceptionUtil;
-import br.paulotrc.contratacaoflow.repositories.ClienteRepository;
 import br.paulotrc.contratacaoflow.repositories.SpcRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import lombok.AllArgsConstructor;
 import org.camunda.bpm.engine.delegate.BpmnError;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
@@ -22,15 +21,12 @@ import org.springframework.web.client.HttpServerErrorException;
 import java.util.List;
 
 @Component
+@AllArgsConstructor
 public class TaskConsultarRestricaoSPC implements JavaDelegate {
 
     private static final Logger log = LoggerFactory.getLogger(TaskConsultarRestricaoSPC.class);
 
     private SpcRepository spcRepository;
-
-    public TaskConsultarRestricaoSPC(SpcRepository spcRepository) {
-        this.spcRepository = spcRepository;
-    }
 
     @Override
     public void execute(DelegateExecution execution) throws JsonProcessingException {
@@ -39,7 +35,7 @@ public class TaskConsultarRestricaoSPC implements JavaDelegate {
             log.info("TaskConsultarRestricaoSPC - Inicio");
             final String cpf = execution.getVariable(CamundaProcessVariables.CPF).toString();
 
-            final List<ResponseRestricaoSpc> responseRestricaoSpcList = spcRepository.consultarRestricaoSpc(cpf);
+            final List<ResponseRestricaoSpcData> responseRestricaoSpcList = spcRepository.consultarRestricaoSpc(cpf);
 
             execution.setVariable(CamundaProcessVariables.RESTRICAO_SPC, responseRestricaoSpcList.size() > 0);
             log.info("TaskConsultarRestricaoSPC - Fim");
@@ -47,7 +43,7 @@ public class TaskConsultarRestricaoSPC implements JavaDelegate {
 
             execution.setVariable("ERROR_TECNICO_SPC", TaskConsultarRestricaoSPC.class.getSimpleName() + " - " + e.getMessage());
             log.error(MensagemDataSource.Erro.LOG, e.getMessage(), e.getCause(), e.getStackTrace());
-            throw new BpmnError("ERROR_SPC", "ERROR_SPC", e.getCause());
+            throw new BpmnError("ERROR", "ERROR", e.getCause());
 
         } catch (HttpClientErrorException e) {
             log.error(MensagemDataSource.Erro.LOG, e.getMessage(), e.getCause(), e.getStackTrace());
@@ -55,7 +51,7 @@ public class TaskConsultarRestricaoSPC implements JavaDelegate {
                     MensagemDataSource.MessageDataSource.ERRO_CONSULTA_SPC, e.getResponseBodyAsString(),
                     MensagemDataSource.Origem.SERVICE_SPC);
             execution.setVariable("ERROR_TECNICO_SPC", jsonException);
-            throw new BpmnError("ERROR_SPC", "ERROR_SPC", e.getCause());
+            throw new BpmnError("ERROR", "ERROR", e.getCause());
 
         } catch (HttpServerErrorException e) {
             log.error(MensagemDataSource.Erro.LOG, e.getMessage(), e.getCause(), e.getStackTrace());
@@ -63,7 +59,7 @@ public class TaskConsultarRestricaoSPC implements JavaDelegate {
                     MensagemDataSource.MessageDataSource.ERRO_CONSULTA_SPC, e.getResponseBodyAsString(),
                     MensagemDataSource.Origem.SERVICE_SPC);
             execution.setVariable("ERROR_TECNICO_SPC", jsonException);
-            throw new BpmnError("ERROR_SPC", "ERROR_SPC", e.getCause());
+            throw new BpmnError("ERROR", "ERROR", e.getCause());
 
         } catch (Exception e) {
             final String jsonException = ExceptionUtil.generateJsonFromException(HttpStatus.INTERNAL_SERVER_ERROR.toString(),
@@ -71,7 +67,7 @@ public class TaskConsultarRestricaoSPC implements JavaDelegate {
                     MensagemDataSource.Origem.SERVICE_SPC);
             execution.setVariable("ERROR_TECNICO_SPC", jsonException);
             log.error(MensagemDataSource.Erro.LOG, e.getMessage(), e.getCause(), e.getStackTrace());
-            throw new BpmnError("ERROR_SPC", "ERROR_SPC", e.getCause());
+            throw new BpmnError("ERROR", "ERROR", e.getCause());
         }
     }
 }

@@ -1,5 +1,6 @@
-package br.paulotrc.contratacaoflow.entities;
+package br.paulotrc.contratacaoflow.entities.cliente;
 
+import br.paulotrc.contratacaoflow.entities.Status;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

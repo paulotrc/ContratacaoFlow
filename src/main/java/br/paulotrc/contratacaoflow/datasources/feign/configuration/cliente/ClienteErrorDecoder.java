@@ -1,6 +1,6 @@
 package br.paulotrc.contratacaoflow.datasources.feign.configuration.cliente;
 
-import br.paulotrc.contratacaoflow.entities.ResponseClienteData;
+import br.paulotrc.contratacaoflow.entities.cliente.ResponseClienteData;
 import br.paulotrc.contratacaoflow.exceptions.feign.GatewayResourceIntegrationRuntimeException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import feign.Response;
